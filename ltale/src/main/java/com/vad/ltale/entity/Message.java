@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="message")
-public class Work {
+public class Message {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id_message")
@@ -19,10 +19,10 @@ public class Work {
     @Column(name="user_id")
     private int id_user;
 
-    public Work() {
+    public Message() {
     }
 
-    public Work(int id, String nameWork, String uri, int id_user) {
+    public Message(int id, String nameWork, String uri, int id_user) {
         this.id = id;
         this.nameWork = nameWork;
         this.uri = uri;
