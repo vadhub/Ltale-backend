@@ -11,22 +11,22 @@ public class Message {
     private int id;
 
     @Column(name="title")
-    private String nameWork;
+    private String titleMessage;
 
     @Column(name="uri_message")
     private String uri;
 
     @Column(name="user_id")
-    private int id_user;
+    private int user;
 
     public Message() {
     }
 
-    public Message(int id, String nameWork, String uri, int id_user) {
+    public Message(int id, String titleMessage, String uri, int user) {
         this.id = id;
-        this.nameWork = nameWork;
+        this.titleMessage = titleMessage;
         this.uri = uri;
-        this.id_user = id_user;
+        this.user = user;
     }
 
     public int getId() {
@@ -37,12 +37,12 @@ public class Message {
         this.id = id;
     }
 
-    public String getNameWork() {
-        return nameWork;
+    public String getTitleMessage() {
+        return titleMessage;
     }
 
-    public void setNameWork(String nameWork) {
-        this.nameWork = nameWork;
+    public void setTitleMessage(String titleMessage) {
+        this.titleMessage = titleMessage;
     }
 
     public String getUri() {
@@ -53,21 +53,21 @@ public class Message {
         this.uri = uri;
     }
 
-    public int getId_user() {
-        return id_user;
+    public int getUser() {
+        return user;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setUser(int user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
-        return "Work{" +
+        return "Message{" +
                 "id=" + id +
-                ", nameWork='" + nameWork + '\'' +
+                ", titleMessage='" + titleMessage + '\'' +
                 ", uri='" + uri + '\'' +
-                ", id_user=" + id_user +
+                ", user=" + user +
                 '}';
     }
 }
