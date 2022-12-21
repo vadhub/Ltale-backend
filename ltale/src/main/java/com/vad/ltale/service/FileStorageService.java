@@ -33,10 +33,10 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void save(MultipartFile file, Message message) {
+    public void save(MultipartFile file, String title, int idUser) {
         try {
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Message temp = new Message(message.getId(), message.getTitleMessage(), root.resolve(file.getOriginalFilename()).toString(), message.getUser());
+            Message temp = new Message(title, root.resolve(file.getOriginalFilename()).toString(), idUser);
             messageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
