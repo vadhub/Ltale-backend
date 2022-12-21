@@ -8,6 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import com.vad.ltale.dao.MessageRepository;
+import com.vad.ltale.entity.Message;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileStorageService implements FileStorage{
     private final Path root = Paths.get("uploads");
+    @Autowired
+    MessageRepository messageRepository;
 
     @Override
     public void init() {
@@ -28,9 +33,11 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void save(MultipartFile file) {
+    public void save(MultipartFile file, Message message) {
         try {
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            Message temp = new Message(message.getId(), message.getTitleMessage(), root.resolve(file.getOriginalFilename()).toString(), message.getUser());
+            messageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");

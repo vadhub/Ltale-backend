@@ -29,6 +29,12 @@ public class Message {
         this.user = user;
     }
 
+    public Message(String titleMessage, String uri, int user) {
+        this.titleMessage = titleMessage;
+        this.uri = uri;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }
