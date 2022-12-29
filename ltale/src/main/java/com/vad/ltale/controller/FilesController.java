@@ -2,9 +2,7 @@ package com.vad.ltale.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.vad.ltale.entity.FileInfo;
-import com.vad.ltale.entity.Message;
 import com.vad.ltale.entity.message.ResponseMessage;
 import com.vad.ltale.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-
 
 @Controller
 @CrossOrigin("http://localhost:8081")
@@ -39,6 +36,7 @@ public class FilesController {
 
     @GetMapping("/files")
     public ResponseEntity<List<FileInfo>> getListFiles() {
+        System.out.println(fileStorage.loadAll().toList());
         List<FileInfo> fileInfos = fileStorage.loadAll().map(path -> {
             String filename = path.getFileName().toString();
             String url = MvcUriComponentsBuilder
@@ -50,10 +48,10 @@ public class FilesController {
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/files/{user}/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = fileStorage.load(filename);
+    public ResponseEntity<Resource> getFile(@PathVariable String filename, @PathVariable String user) {
+        Resource file = fileStorage.load(filename, user);
         System.out.println(file);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);

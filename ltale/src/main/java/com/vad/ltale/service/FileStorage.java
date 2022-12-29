@@ -8,11 +8,10 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public interface FileStorage {
-    void init();
 
     void save(MultipartFile file, String title, int userId);
 
-    Resource load(String filename);
+    Resource load(String filename, String user);
 
     void deleteAll();
 

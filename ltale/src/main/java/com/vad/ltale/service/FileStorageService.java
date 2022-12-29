@@ -19,13 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageService implements FileStorage{
-    private final Path root = Paths.get("uploads");
+    private Path root;
     @Autowired
     MessageRepository messageRepository;
 
-    @Override
-    public void init() {
+    public void createDirectory(String user) {
         try {
+            root = Paths.get("uploads"+"/"+user);
             Files.createDirectories(root);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
@@ -35,8 +35,9 @@ public class FileStorageService implements FileStorage{
     @Override
     public void save(MultipartFile file, String title, int idUser) {
         try {
+            createDirectory(idUser+"");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Message temp = new Message(title, title, idUser);
+            Message temp = new Message(title,file.getOriginalFilename(), idUser);
             messageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -48,8 +49,9 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public Resource load(String filename) {
+    public Resource load(String filename, String user) {
         try {
+            root = Paths.get("uploads"+"/"+user);
             Path file = root.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
 
@@ -71,7 +73,8 @@ public class FileStorageService implements FileStorage{
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
+            root = Paths.get("uploads");
+            return Files.walk(this.root, 2).filter(path -> !path.equals(this.root)).map(this.root::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Could not load the files!");
         }
