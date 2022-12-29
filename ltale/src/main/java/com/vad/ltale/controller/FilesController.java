@@ -29,7 +29,6 @@ public class FilesController {
         String messageResponse = "";
         try {
             fileStorage.save(file, title, Integer.parseInt(idUser));
-
             messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
@@ -55,6 +54,7 @@ public class FilesController {
     @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = fileStorage.load(filename);
+        System.out.println(file);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
