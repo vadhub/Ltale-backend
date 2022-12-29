@@ -25,7 +25,7 @@ public class FilesController {
     public ResponseEntity<ResponseMessage> uploadFile(@RequestPart("file") MultipartFile file, @RequestPart("title") String title, @RequestPart("idUser") String idUser) {
         String messageResponse = "";
         try {
-            fileStorage.save(file, title, Integer.parseInt(idUser));
+            fileStorage.saveAudio(file, title, Integer.parseInt(idUser));
             messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
@@ -36,7 +36,6 @@ public class FilesController {
 
     @GetMapping("/files")
     public ResponseEntity<List<FileInfo>> getListFiles() {
-        System.out.println(fileStorage.loadAll().toList());
         List<FileInfo> fileInfos = fileStorage.loadAll().map(path -> {
             String filename = path.getFileName().toString();
             String url = MvcUriComponentsBuilder

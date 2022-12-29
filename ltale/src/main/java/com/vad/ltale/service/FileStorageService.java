@@ -8,7 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import com.vad.ltale.dao.ImageRepository;
 import com.vad.ltale.dao.MessageRepository;
+import com.vad.ltale.entity.ImageUser;
 import com.vad.ltale.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -23,9 +25,12 @@ public class FileStorageService implements FileStorage{
     @Autowired
     MessageRepository messageRepository;
 
-    public void createDirectory(String user) {
+    @Autowired
+    ImageRepository imageRepository;
+
+    public void createDirectory(String directory) {
         try {
-            root = Paths.get("uploads"+"/"+user);
+            root = Paths.get("uploads"+"/"+directory);
             Files.createDirectories(root);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
@@ -33,9 +38,9 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void save(MultipartFile file, String title, int idUser) {
+    public void saveAudio(MultipartFile file, String title, int idUser) {
         try {
-            createDirectory(idUser+"");
+            createDirectory(idUser+"/audio");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
             Message temp = new Message(title,file.getOriginalFilename(), idUser);
             messageRepository.save(temp);
@@ -43,15 +48,29 @@ public class FileStorageService implements FileStorage{
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
             }
-
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public Resource load(String filename, String user) {
+    public void saveImg(MultipartFile file,  int idUser) {
         try {
-            root = Paths.get("uploads"+"/"+user);
+            createDirectory(idUser+"/image");
+            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            ImageUser temp = new ImageUser(idUser, file.getOriginalFilename());
+            imageRepository.save(temp);
+        } catch (Exception e) {
+            if (e instanceof FileAlreadyExistsException) {
+                throw new RuntimeException("A file of that name already exists.");
+            }
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Resource load(String filename, String directory) {
+        try {
+            root = Paths.get("uploads"+"/"+directory);
             Path file = root.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
 

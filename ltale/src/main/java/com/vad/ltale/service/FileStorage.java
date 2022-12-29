@@ -1,6 +1,5 @@
 package com.vad.ltale.service;
 
-import com.vad.ltale.entity.Message;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +8,9 @@ import java.util.stream.Stream;
 
 public interface FileStorage {
 
-    void save(MultipartFile file, String title, int userId);
+    void saveAudio(MultipartFile file, String title, int userId);
+
+    void saveImg(MultipartFile file, int userId);
 
     Resource load(String filename, String user);
 
