@@ -12,11 +12,11 @@ public class User {
     @Column(name="id_user")
     private int id;
 
-    @Column(name="name")
+    @Column(name="first_name")
     private String firstName;
 
-    @Column(name="lastname")
-    private String lastName;
+    @Column(name="email")
+    private String email;
 
     @Column(name="password")
     private String password;
@@ -30,7 +30,7 @@ public class User {
 
     public User(String firstName, String lastName, String password) {
         this.firstName = firstName;
-        this.lastName = lastName;
+        this.email = lastName;
         this.password = password;
     }
 
@@ -52,12 +52,12 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -72,7 +72,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password + "]";
+        return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + email + ", password=" + password + "]";
     }
 
 }
