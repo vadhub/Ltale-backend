@@ -22,7 +22,7 @@ public class FilesController {
     FileStorage fileStorage;
 
     @PostMapping("/upload/audio")
-    public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestPart("title") String title, @RequestPart("idUser") String idUser) {
+    public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestPart("title") String title, @RequestPart("id_user") String idUser) {
         String messageResponse = "";
         try {
             fileStorage.saveAudio(file, title, Integer.parseInt(idUser));

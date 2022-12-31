@@ -69,7 +69,7 @@ public class FileStorageService implements FileStorage{
     @Override
     public Resource load(String filename, String directory) {
         try {
-            root = Paths.get("uploads"+directory);
+            root = Paths.get("uploads/"+directory);
             Path file = root.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
 
