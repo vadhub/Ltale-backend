@@ -21,11 +21,24 @@ public class FilesController {
     @Autowired
     FileStorage fileStorage;
 
-    @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestPart("file") MultipartFile file, @RequestPart("title") String title, @RequestPart("idUser") String idUser) {
+    @PostMapping("/upload/audio")
+    public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestPart("title") String title, @RequestPart("idUser") String idUser) {
         String messageResponse = "";
         try {
             fileStorage.saveAudio(file, title, Integer.parseInt(idUser));
+            messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
+        } catch (Exception e) {
+            messageResponse = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(messageResponse));
+        }
+    }
+
+    @PostMapping("/upload/image")
+    public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestPart("idUser") String idUser) {
+        String messageResponse = "";
+        try {
+            fileStorage.saveImg(file, Integer.parseInt(idUser));
             messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
@@ -47,10 +60,10 @@ public class FilesController {
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
 
-    @GetMapping("/files/{user}/{filename:.+}")
+    @GetMapping("/files/{user}/{directory}/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename, @PathVariable String user) {
-        Resource file = fileStorage.load(filename, user);
+    public ResponseEntity<Resource> getFile(@PathVariable String filename, @PathVariable String user, @PathVariable String directory) {
+        Resource file = fileStorage.load(filename, user+"/"+directory);
         System.out.println(file);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
