@@ -3,24 +3,26 @@ package com.vad.ltale.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
 
     // define fields
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id_user")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private int id;
 
-    @Column(name="first_name")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "user_icon")
+    private int userIcon;
 
     // define constructors
 
@@ -28,7 +30,7 @@ public class User {
 
     }
 
-    public User(String firstName, String lastName, String password) {
+    public User(String firstName, String lastName, String password, int userIcon) {
         this.firstName = firstName;
         this.email = lastName;
         this.password = password;
@@ -68,11 +70,19 @@ public class User {
         this.password = password;
     }
 
+    public int getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(int userIcon) {
+        this.userIcon = userIcon;
+    }
+
     // define tostring
 
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + email + ", password=" + password + "]";
+        return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + email + ", password=" + password + ", icon=" + userIcon + "]";
     }
 
 }

@@ -3,30 +3,25 @@ package com.vad.ltale.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="image_user")
-public class ImageUser {
+@Table(name="image")
+public class Image {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id_image_user")
+    @Column(name="id_image")
     private int idImage;
 
-    @Column(name="user_id")
-    private int userId;
-
-    @Column(name="image_uri")
+    @Column(name="uri_image")
     private String imageUri;
 
-    public ImageUser() {
+    public Image() {
     }
 
-    public ImageUser(int idImage, int userId, String imageUri) {
+    public Image(int idImage, String imageUri) {
         this.idImage = idImage;
-        this.userId = userId;
         this.imageUri = imageUri;
     }
 
-    public ImageUser(int userId, String imageUri) {
-        this.userId = userId;
+    public Image(String imageUri) {
         this.imageUri = imageUri;
     }
 
@@ -38,13 +33,6 @@ public class ImageUser {
         this.idImage = idImage;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public String getImageUri() {
         return imageUri;
@@ -58,7 +46,6 @@ public class ImageUser {
     public String toString() {
         return "Image{" +
                 "idImage=" + idImage +
-                ", userId=" + userId +
                 ", imageUri='" + imageUri + '\'' +
                 '}';
     }

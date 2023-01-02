@@ -3,7 +3,7 @@ package com.vad.ltale.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.vad.ltale.entity.FileInfo;
-import com.vad.ltale.entity.message.ResponseMessage;
+import com.vad.ltale.entity.ResponseMessage;
 import com.vad.ltale.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;

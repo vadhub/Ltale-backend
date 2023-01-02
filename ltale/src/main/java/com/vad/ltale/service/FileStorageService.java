@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import com.vad.ltale.dao.ImageRepository;
 import com.vad.ltale.dao.MessageRepository;
-import com.vad.ltale.entity.ImageUser;
+import com.vad.ltale.entity.Image;
 import com.vad.ltale.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -56,7 +56,7 @@ public class FileStorageService implements FileStorage{
         try {
             createDirectory(idUser+"/image");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            ImageUser temp = new ImageUser(idUser, file.getOriginalFilename());
+            Image temp = new Image(idUser, file.getOriginalFilename());
             imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {

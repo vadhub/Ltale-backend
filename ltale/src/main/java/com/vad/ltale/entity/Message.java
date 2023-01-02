@@ -3,36 +3,40 @@ package com.vad.ltale.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="message")
+@Table(name = "message")
 public class Message {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id_message")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_message")
     private int id;
 
-    @Column(name="title")
+    @Column(name = "title")
     private String titleMessage;
 
-    @Column(name="uri_message")
+    @Column(name = "uri_message")
     private String uri;
 
-    @Column(name="user_id")
-    private int user;
+    @Column(name = "user_id")
+    private int userId;
+
+    @Column(name = "image_id")
+    private int imageId;
 
     public Message() {
     }
 
-    public Message(int id, String titleMessage, String uri, int user) {
+    public Message(int id, String titleMessage, String uri, int user, int imageId) {
         this.id = id;
         this.titleMessage = titleMessage;
         this.uri = uri;
-        this.user = user;
+        this.userId = user;
+        this.imageId = imageId;
     }
 
     public Message(String titleMessage, String uri, int user) {
         this.titleMessage = titleMessage;
         this.uri = uri;
-        this.user = user;
+        this.userId = user;
     }
 
     public int getId() {
@@ -59,12 +63,20 @@ public class Message {
         this.uri = uri;
     }
 
-    public int getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(int user) {
-        this.user = user;
+    public void setUserId(int user) {
+        this.userId = user;
+    }
+
+    public int getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     @Override
@@ -73,7 +85,8 @@ public class Message {
                 "id=" + id +
                 ", titleMessage='" + titleMessage + '\'' +
                 ", uri='" + uri + '\'' +
-                ", user=" + user +
+                ", userId=" + userId +
+                ", imageId=" + imageId +
                 '}';
     }
 }

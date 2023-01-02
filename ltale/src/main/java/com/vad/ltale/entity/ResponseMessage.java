@@ -1,4 +1,4 @@
-package com.vad.ltale.entity.message;
+package com.vad.ltale.entity;
 
 public class ResponseMessage {
     private String message;
