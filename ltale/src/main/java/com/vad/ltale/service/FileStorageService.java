@@ -41,7 +41,7 @@ public class FileStorageService implements FileStorage{
         try {
             createDirectory(idUser+"/audio");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Message temp = new Message(title,file.getOriginalFilename(), idUser);
+            Message temp = new Message(title,root.toString()+file.getOriginalFilename(), idUser, -1);
             messageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {

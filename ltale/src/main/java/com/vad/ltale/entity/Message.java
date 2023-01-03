@@ -33,10 +33,11 @@ public class Message {
         this.imageId = imageId;
     }
 
-    public Message(String titleMessage, String uri, int user) {
+    public Message(String titleMessage, String uri, int user, int imageId) {
         this.titleMessage = titleMessage;
         this.uri = uri;
         this.userId = user;
+        this.imageId = imageId;
     }
 
     public int getId() {
