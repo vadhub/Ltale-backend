@@ -56,7 +56,7 @@ public class FileStorageService implements FileStorage{
         try {
             createDirectory(idUser+"/image");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Image temp = new Image(idUser, file.getOriginalFilename());
+            Image temp = new Image(idUser, root.toString()+file.getOriginalFilename());
             imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
