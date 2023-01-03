@@ -41,7 +41,7 @@ public class FileStorageService implements FileStorage{
         try {
             createDirectory(idUser+"/audio");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Message temp = new Message(title,root.toString()+file.getOriginalFilename(), idUser, -1);
+            Message temp = new Message(title,root.toString()+"/"+file.getOriginalFilename(), idUser, -1);
             messageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -69,8 +69,7 @@ public class FileStorageService implements FileStorage{
     @Override
     public Resource load(String directory) {
         try {
-            root = Paths.get(directory);
-            Path file = root.getRoot();
+            Path file = Paths.get(directory);
             Resource resource = new UrlResource(file.toUri());
 
             if (resource.exists() || resource.isReadable()) {
