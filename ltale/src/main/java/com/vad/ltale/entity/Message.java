@@ -13,7 +13,7 @@ public class Message {
     @Column(name = "title")
     private String titleMessage;
 
-    @Column(name = "uri_message")
+    @Column(name = "uri_audio")
     private String uri;
 
     @Column(name = "user_id")

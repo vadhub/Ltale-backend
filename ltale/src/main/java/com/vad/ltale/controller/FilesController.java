@@ -35,7 +35,7 @@ public class FilesController {
     }
 
     @PostMapping("/upload/image")
-    public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestPart("idUser") String idUser) {
+    public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestPart("id_user") String idUser) {
         String messageResponse = "";
         try {
             fileStorage.saveImg(file, Integer.parseInt(idUser));
@@ -60,10 +60,10 @@ public class FilesController {
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
 
-    @GetMapping("/files/{user}/{directory}/{filename:.+}")
+    @GetMapping("/files/{directory}")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename, @PathVariable String user, @PathVariable String directory) {
-        Resource file = fileStorage.load(filename, user+"/"+directory);
+    public ResponseEntity<Resource> getFile(@PathVariable String directory) {
+        Resource file = fileStorage.load(directory);
         System.out.println(file);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);

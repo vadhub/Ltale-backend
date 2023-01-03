@@ -12,7 +12,7 @@ public interface FileStorage {
 
     void saveImg(MultipartFile file, int userId);
 
-    Resource load(String filename, String directory);
+    Resource load(String directory);
 
     void deleteAll();
 

@@ -21,16 +21,11 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "user_icon")
-    private int userIcon;
-
-    // define constructors
-
     public User() {
 
     }
 
-    public User(String firstName, String lastName, String password, int userIcon) {
+    public User(String firstName, String lastName, String password) {
         this.firstName = firstName;
         this.email = lastName;
         this.password = password;
@@ -70,19 +65,9 @@ public class User {
         this.password = password;
     }
 
-    public int getUserIcon() {
-        return userIcon;
-    }
-
-    public void setUserIcon(int userIcon) {
-        this.userIcon = userIcon;
-    }
-
-    // define tostring
-
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + email + ", password=" + password + ", icon=" + userIcon + "]";
+        return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + email + ", password=" + password + "]";
     }
 
 }
