@@ -1,7 +1,6 @@
 package com.vad.ltale.entity;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
