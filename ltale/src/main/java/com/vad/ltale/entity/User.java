@@ -1,6 +1,9 @@
 package com.vad.ltale.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -12,8 +15,8 @@ public class User {
     @Column(name = "id_user")
     private int id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "email")
     private String email;
@@ -25,8 +28,8 @@ public class User {
 
     }
 
-    public User(String firstName, String lastName, String password) {
-        this.firstName = firstName;
+    public User(String username, String lastName, String password) {
+        this.username = username;
         this.email = lastName;
         this.password = password;
     }
@@ -41,12 +44,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String firstName) {
+        this.username = firstName;
     }
 
     public String getEmail() {
@@ -67,7 +70,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + email + ", password=" + password + "]";
+        return "Employee [id=" + id + ", firstName=" + username + ", lastName=" + email + ", password=" + password + "]";
     }
 
 }
