@@ -10,7 +10,7 @@ public interface FileStorage {
 
     void saveAudio(MultipartFile file, String title, int userId);
 
-    void saveImg(MultipartFile file, int userId);
+    void saveImg(MultipartFile file, int userId, int isIcon);
 
     Resource load(String directory);
 

@@ -1,4 +1,4 @@
-package com.vad.ltale.dao;
+package com.vad.ltale.repository;
 
 import com.vad.ltale.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

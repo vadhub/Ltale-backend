@@ -8,8 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import com.vad.ltale.dao.ImageRepository;
-import com.vad.ltale.dao.MessageRepository;
+import com.vad.ltale.repository.ImageRepository;
+import com.vad.ltale.repository.MessageRepository;
 import com.vad.ltale.entity.Image;
 import com.vad.ltale.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileStorageService implements FileStorage{
     private Path root;
+    private final MessageRepository messageRepository;
+    private final ImageRepository imageRepository;
+
     @Autowired
-    MessageRepository messageRepository;
-    @Autowired
-    ImageRepository imageRepository;
+    public FileStorageService(MessageRepository messageRepository, ImageRepository imageRepository) {
+        this.messageRepository = messageRepository;
+        this.imageRepository = imageRepository;
+    }
 
     public void createDirectory(String directory) {
         try {
@@ -41,7 +45,7 @@ public class FileStorageService implements FileStorage{
         try {
             createDirectory(idUser+"/audio");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Message temp = new Message(title,root.toString()+"/"+file.getOriginalFilename(), idUser, -1);
+            Message temp = new Message(title, file.getOriginalFilename(), idUser, -1);
             messageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -52,11 +56,11 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void saveImg(MultipartFile file,  int idUser) {
+    public void saveImg(MultipartFile file,  int idUser, int isIcon) {
         try {
             createDirectory(idUser+"/image");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Image temp = new Image(root.toString()+"/"+file.getOriginalFilename(), idUser, 0);
+            Image temp = new Image(file.getOriginalFilename(), idUser, isIcon);
             imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -71,7 +75,6 @@ public class FileStorageService implements FileStorage{
         try {
             Path file = Paths.get(directory);
             Resource resource = new UrlResource(file.toUri());
-
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {

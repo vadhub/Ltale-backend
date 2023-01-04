@@ -1,8 +1,5 @@
-package com.vad.ltale.controller;
+package com.vad.ltale.rest;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import com.vad.ltale.entity.FileInfo;
 import com.vad.ltale.entity.ResponseMessage;
 import com.vad.ltale.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 @Controller
 @CrossOrigin("http://localhost:8081")
@@ -22,10 +18,10 @@ public class FilesController {
     FileStorage fileStorage;
 
     @PostMapping("/upload/audio")
-    public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestParam("title") String title, @RequestParam("id_user") String idUser) {
+    public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestParam("title") String title, @RequestParam("id_user") int idUser) {
         String messageResponse = "";
         try {
-            fileStorage.saveAudio(file, title, Integer.parseInt(idUser));
+            fileStorage.saveAudio(file, title, idUser);
             messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
@@ -35,10 +31,10 @@ public class FilesController {
     }
 
     @PostMapping("/upload/image")
-    public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestParam("id_user") String idUser) {
+    public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestParam("id_user") int idUser, @RequestParam("is_icon") int isIcon) {
         String messageResponse = "";
         try {
-            fileStorage.saveImg(file, Integer.parseInt(idUser));
+            fileStorage.saveImg(file, idUser, isIcon);
             messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
@@ -47,24 +43,10 @@ public class FilesController {
         }
     }
 
-    @GetMapping("/files")
-    public ResponseEntity<List<FileInfo>> getListFiles() {
-        List<FileInfo> fileInfos = fileStorage.loadAll().map(path -> {
-            String filename = path.getFileName().toString();
-            String url = MvcUriComponentsBuilder
-                    .fromMethodName(FilesController.class, "getFile", path.getFileName().toString()).build().toString();
-
-            return new FileInfo(filename, url);
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
-    }
-
     @GetMapping("/files/search")
     @ResponseBody
     public ResponseEntity<Resource> getFile(@RequestParam String userId, @RequestParam String directory, @RequestParam String filename) {
         Resource file = fileStorage.load("uploads/"+userId+"/"+directory+"/"+filename);
-        System.out.println(file);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
