@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@CrossOrigin("http://localhost:8081")
 public class FilesController {
+
+    private final FileStorage fileStorage;
+
     @Autowired
-    FileStorage fileStorage;
+    public FilesController(FileStorage fileStorage) {
+        this.fileStorage = fileStorage;
+    }
 
     @PostMapping("/upload/audio")
     public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestParam("title") String title, @RequestParam("id_user") int idUser) {
