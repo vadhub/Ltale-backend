@@ -2,13 +2,10 @@ package com.vad.ltale.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "user")
 public class User {
 
-    // define fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
@@ -23,14 +20,33 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "enabled")
+    private int enabled;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
+
+
     public User() {
 
     }
 
-    public User(String username, String lastName, String password) {
+    public User(String username, String email, String password, int enabled, Role role) {
         this.username = username;
-        this.email = lastName;
+        this.email = email;
         this.password = password;
+        this.enabled = enabled;
+        this.role = role;
+    }
+
+    public User(int id, String username, String email, String password, int enabled, Role role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+        this.role = role;
     }
 
     // define getter/setter
@@ -67,9 +83,31 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "Employee [id=" + id + ", firstName=" + username + ", lastName=" + email + ", password=" + password + "]";
+    public int getEnabled() {
+        return enabled;
     }
 
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", role=" + role +
+                '}';
+    }
 }
