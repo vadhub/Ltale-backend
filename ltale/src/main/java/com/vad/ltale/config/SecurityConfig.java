@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,9 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     private final UserDetailsService userDetailsService;
-
     @Autowired
     public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -29,14 +31,13 @@ public class SecurityConfig {
         http
                 .authorizeRequests(
                         configure -> configure
-                                .antMatchers("/").permitAll()
+                                .dispatcherTypeMatchers(HttpMethod.valueOf("/")).permitAll()
                                 .anyRequest().authenticated()
-                ).formLogin(configure ->
-                        configure
-                                .loginPage("/login").permitAll())
-                .logout(configure ->
-                        configure.permitAll())
-                .exceptionHandling(configure -> configure.accessDeniedPage("/access-denied"));
+                )
+                .exceptionHandling(configure -> configure.accessDeniedPage("/access-denied"))
+                .authenticationProvider(daoAuthenticationProvider())
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().httpBasic();
 
         return http.build();
     }
@@ -52,6 +53,11 @@ public class SecurityConfig {
         dao.setPasswordEncoder(passwordEncoder());
         dao.setUserDetailsService(userDetailsService);
         return dao;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
+        return auth.getAuthenticationManager();
     }
 
 
