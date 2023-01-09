@@ -1,4 +1,4 @@
-package com.vad.ltale.rest;
+package com.vad.ltale.controller;
 
 import com.vad.ltale.entity.ResponseMessage;
 import com.vad.ltale.service.FileStorage;

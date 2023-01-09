@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -28,18 +27,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain defaultSecurityChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(
+        return http
+                .authorizeHttpRequests(
                         configure -> configure
-                                .dispatcherTypeMatchers(HttpMethod.valueOf("/")).permitAll()
+                                .requestMatchers("/", "/registration").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(configure -> configure.accessDeniedPage("/access-denied"))
-                .authenticationProvider(daoAuthenticationProvider())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().httpBasic();
+                .and().httpBasic().and().build();
 
-        return http.build();
     }
 
     @Bean
@@ -50,8 +47,8 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
-        dao.setPasswordEncoder(passwordEncoder());
         dao.setUserDetailsService(userDetailsService);
+        dao.setPasswordEncoder(passwordEncoder());
         return dao;
     }
 
@@ -59,6 +56,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
         return auth.getAuthenticationManager();
     }
-
 
 }
