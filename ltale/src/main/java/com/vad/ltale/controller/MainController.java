@@ -1,18 +1,30 @@
 package com.vad.ltale.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.vad.ltale.entity.User;
+import com.vad.ltale.entity.UserRequest;
+import com.vad.ltale.service.RegistrationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MainController {
+
+    private final RegistrationService registrationService;
+
+    @Autowired
+    public MainController(RegistrationService registrationService) {
+        this.registrationService = registrationService;
+    }
+
     @GetMapping("/")
     public String homePage() {
         return "home";
     }
 
-    @GetMapping("/registration")
-    public String registrationPage() {
-        return "registration";
+    @ResponseBody
+    @PostMapping("/registration")
+    public String registrationPage(@RequestBody UserRequest user) {
+        return registrationService.save(user).toString();
     }
 
     @GetMapping("/access-denied")
