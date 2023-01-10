@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         configure -> configure
                                 .requestMatchers(HttpMethod.POST,"/registration").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/login").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(configure -> configure.accessDeniedPage("/access-denied"))

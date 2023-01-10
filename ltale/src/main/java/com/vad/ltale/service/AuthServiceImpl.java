@@ -5,16 +5,17 @@ import com.vad.ltale.entity.User;
 import com.vad.ltale.entity.UserRequest;
 import com.vad.ltale.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegistrationServiceImpl implements RegistrationService {
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public RegistrationServiceImpl(UserRepository userRepository) {
+    public AuthServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -31,5 +32,11 @@ public class RegistrationServiceImpl implements RegistrationService {
                 1,
                 Role.USER);
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getOne(String username) {
+        return userRepository.findByUsername(username).
+                orElseThrow(() -> new UsernameNotFoundException("username not found: " + username));
     }
 }
