@@ -16,12 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageService implements FileStorage{
-    private Path root;
+    private final Path root = Paths.get("uploads/");
     private final MessageRepository messageRepository;
     private final ImageRepository imageRepository;
 
@@ -29,11 +28,8 @@ public class FileStorageService implements FileStorage{
     public FileStorageService(MessageRepository messageRepository, ImageRepository imageRepository) {
         this.messageRepository = messageRepository;
         this.imageRepository = imageRepository;
-    }
 
-    public void createDirectory(String directory) {
         try {
-            root = Paths.get("uploads/");
             Files.createDirectories(root);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");

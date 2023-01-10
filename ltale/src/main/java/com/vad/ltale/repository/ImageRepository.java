@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ImageRepository extends JpaRepository<Image, Integer> {
-    List<Image> findAllByUserId(int userId);
+//    List<Image> findAllByUserId(int userId);
 
-    @Query("FROM Image i WHERE i.userId = :userId AND i.isIcon = 1")
-    Optional<Image> findByUserIdAndIsIcon(@Param("userId") int userId);
+//    @Query("FROM Image i WHERE i.userId = :userId AND i.isIcon = 1")
+//    Optional<Image> findByUserIdAndIsIcon(@Param("userId") int userId);
 }

@@ -24,7 +24,7 @@ public class FilesController {
         this.fileStorage = fileStorage;
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/audio")
     public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestBody Message message) {
         String messageResponse = "";
         try {
@@ -37,7 +37,7 @@ public class FilesController {
         }
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/image")
     public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestBody Image image) {
         String messageResponse = "";
         try {
