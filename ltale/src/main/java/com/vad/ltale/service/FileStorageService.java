@@ -8,10 +8,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import com.vad.ltale.entity.ImageRequest;
 import com.vad.ltale.repository.ImageRepository;
 import com.vad.ltale.repository.MessageRepository;
 import com.vad.ltale.entity.Image;
 import com.vad.ltale.entity.Message;
+import com.vad.ltale.security.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -24,10 +26,13 @@ public class FileStorageService implements FileStorage{
     private final MessageRepository messageRepository;
     private final ImageRepository imageRepository;
 
+    private final BCrypt bCrypt;
+
     @Autowired
-    public FileStorageService(MessageRepository messageRepository, ImageRepository imageRepository) {
+    public FileStorageService(MessageRepository messageRepository, ImageRepository imageRepository, BCrypt bCrypt) {
         this.messageRepository = messageRepository;
         this.imageRepository = imageRepository;
+        this.bCrypt = bCrypt;
 
         try {
             Files.createDirectories(root);
@@ -40,7 +45,7 @@ public class FileStorageService implements FileStorage{
     public void saveAudio(MultipartFile file, Message message) {
         try {
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Message temp = new Message();
+            Message temp = new Message(bCrypt.passwordEncoder().encode(message.getUri()), message.getDateCreated(), message.getDateChanged(), message.getImageId());
             messageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -51,10 +56,11 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void saveImg(MultipartFile file, Image image) {
+    public void saveImg(ImageRequest imageRequest) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Image temp = new Image();
+            String img = bCrypt.passwordEncoder().encode(imageRequest.getImageUri());
+            Files.copy(imageRequest.getFile().getInputStream(), Path.of(img));
+            Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged());
             imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -82,7 +88,7 @@ public class FileStorageService implements FileStorage{
     @Override
     public Stream<Path> loadAll() {
         try {
-            return Files.walk(this.root, 2).filter(path -> !path.equals(this.root)).map(this.root::relativize);
+            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Could not load the files!");
         }

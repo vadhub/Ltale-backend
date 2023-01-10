@@ -1,6 +1,7 @@
 package com.vad.ltale.controller;
 
 import com.vad.ltale.entity.Image;
+import com.vad.ltale.entity.ImageRequest;
 import com.vad.ltale.entity.Message;
 import com.vad.ltale.entity.ResponseMessage;
 import com.vad.ltale.service.FileStorage;
@@ -38,22 +39,22 @@ public class FilesController {
     }
 
     @PostMapping("/upload/image")
-    public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestBody Image image) {
+    public ResponseEntity<ResponseMessage> uploadImage(@ModelAttribute ImageRequest imageRequest) {
         String messageResponse = "";
         try {
-            fileStorage.saveImg(file, image);
-            messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
+            fileStorage.saveImg(imageRequest);
+            messageResponse = "Uploaded the file successfully: " + imageRequest.getFile().getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
-            messageResponse = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+            messageResponse = "Could not upload the file: " + imageRequest.getFile().getOriginalFilename() + ". Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(messageResponse));
         }
     }
 
     @GetMapping("/files/search")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@RequestParam String userId, @RequestParam String directory, @RequestParam String filename) {
-        Resource file = fileStorage.load("uploads/"+userId+"/"+directory+"/"+filename);
+    public ResponseEntity<Resource> getFile(@RequestParam String filename) {
+        Resource file = fileStorage.load("uploads/"+filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
