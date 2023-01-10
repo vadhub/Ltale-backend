@@ -2,6 +2,8 @@ package com.vad.ltale.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 @Table(name = "message")
 public class Message {
@@ -10,33 +12,33 @@ public class Message {
     @Column(name = "id_message")
     private int id;
 
-    @Column(name = "title")
-    private String titleMessage;
-
     @Column(name = "uri_audio")
     private String uri;
 
-    @Column(name = "user_id")
-    private int userId;
+    @Column(name = "date_created")
+    private Date dateCreated;
 
-    @Column(name = "image_id")
+    @Column(name = "date_changed")
+    private Date dateChanged;
+
+    @Column(name = "image_id_")
     private int imageId;
 
     public Message() {
     }
 
-    public Message(int id, String titleMessage, String uri, int user, int imageId) {
+    public Message(int id, String uri, Date dateCreated, Date dateChanged, int imageId) {
         this.id = id;
-        this.titleMessage = titleMessage;
         this.uri = uri;
-        this.userId = user;
+        this.dateCreated = dateCreated;
+        this.dateChanged = dateChanged;
         this.imageId = imageId;
     }
 
-    public Message(String titleMessage, String uri, int user, int imageId) {
-        this.titleMessage = titleMessage;
+    public Message(String uri, Date dateCreated, Date dateChanged, int imageId) {
         this.uri = uri;
-        this.userId = user;
+        this.dateCreated = dateCreated;
+        this.dateChanged = dateChanged;
         this.imageId = imageId;
     }
 
@@ -48,28 +50,12 @@ public class Message {
         this.id = id;
     }
 
-    public String getTitleMessage() {
-        return titleMessage;
-    }
-
-    public void setTitleMessage(String titleMessage) {
-        this.titleMessage = titleMessage;
-    }
-
     public String getUri() {
         return uri;
     }
 
     public void setUri(String uri) {
         this.uri = uri;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int user) {
-        this.userId = user;
     }
 
     public int getImageId() {
@@ -80,13 +66,29 @@ public class Message {
         this.imageId = imageId;
     }
 
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getDateChanged() {
+        return dateChanged;
+    }
+
+    public void setDateChanged(Date dateChanged) {
+        this.dateChanged = dateChanged;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
                 "id=" + id +
-                ", titleMessage='" + titleMessage + '\'' +
                 ", uri='" + uri + '\'' +
-                ", userId=" + userId +
+                ", dateCreated=" + dateCreated +
+                ", dateChanged=" + dateChanged +
                 ", imageId=" + imageId +
                 '}';
     }

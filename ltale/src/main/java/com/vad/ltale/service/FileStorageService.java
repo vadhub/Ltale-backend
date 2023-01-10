@@ -33,7 +33,7 @@ public class FileStorageService implements FileStorage{
 
     public void createDirectory(String directory) {
         try {
-            root = Paths.get("uploads"+"/"+directory);
+            root = Paths.get("uploads/");
             Files.createDirectories(root);
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize folder for upload!");
@@ -41,11 +41,10 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void saveAudio(MultipartFile file, String title, int idUser) {
+    public void saveAudio(MultipartFile file, Message message) {
         try {
-            createDirectory(idUser+"/audio");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Message temp = new Message(title, file.getOriginalFilename(), idUser, -1);
+            Message temp = new Message();
             messageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -56,11 +55,10 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void saveImg(MultipartFile file,  int idUser, int isIcon) {
+    public void saveImg(MultipartFile file, Image image) {
         try {
-            createDirectory(idUser+"/image");
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Image temp = new Image(file.getOriginalFilename(), idUser, isIcon);
+            Image temp = new Image();
             imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -86,15 +84,8 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
-    }
-
-
-    @Override
     public Stream<Path> loadAll() {
         try {
-            root = Paths.get("uploads");
             return Files.walk(this.root, 2).filter(path -> !path.equals(this.root)).map(this.root::relativize);
         } catch (IOException e) {
             throw new RuntimeException("Could not load the files!");

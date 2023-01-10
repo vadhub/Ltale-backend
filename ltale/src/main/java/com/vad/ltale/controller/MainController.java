@@ -1,6 +1,5 @@
 package com.vad.ltale.controller;
 
-import com.vad.ltale.entity.User;
 import com.vad.ltale.entity.UserRequest;
 import com.vad.ltale.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;

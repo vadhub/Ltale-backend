@@ -2,6 +2,8 @@ package com.vad.ltale.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 @Table(name="image")
 public class Image {
@@ -13,26 +15,27 @@ public class Image {
     @Column(name="uri_image")
     private String imageUri;
 
-    @Column(name="user_id")
-    private int userId;
+    @Column(name="date_created")
+    private Date dateCreated;
 
-    @Column(name="is_icon_user")
-    private int isIcon;
+    @Column(name="date_changed")
+    private Date dateChanged;
 
     public Image() {
     }
 
-    public Image(int idImage, String imageUri, int userId, int isIcon) {
+    public Image(int idImage, String imageUri, Date dateCreated, Date dateChanged) {
         this.idImage = idImage;
         this.imageUri = imageUri;
-        this.userId = userId;
-        this.isIcon = isIcon;
+        this.dateCreated = dateCreated;
+        this.dateChanged = dateChanged;
     }
 
-    public Image(String imageUri, int userId, int isIcon) {
+    public Image(String imageUri, Date dateCreated, Date dateChanged) {
         this.imageUri = imageUri;
-        this.userId = userId;
-        this.isIcon = isIcon;
+        this.dateCreated = dateCreated;
+        this.dateChanged = dateChanged;
+
     }
 
     public int getIdImage() {
@@ -52,20 +55,20 @@ public class Image {
         this.imageUri = imageUri;
     }
 
-    public int getUserId() {
-        return userId;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public int getIsIcon() {
-        return isIcon;
+    public Date getDateChanged() {
+        return dateChanged;
     }
 
-    public void setIsIcon(int isIcon) {
-        this.isIcon = isIcon;
+    public void setDateChanged(Date dateChanged) {
+        this.dateChanged = dateChanged;
     }
 
     @Override
@@ -73,8 +76,8 @@ public class Image {
         return "Image{" +
                 "idImage=" + idImage +
                 ", imageUri='" + imageUri + '\'' +
-                ", userId=" + userId +
-                ", isIcon=" + isIcon +
+                ", dateCreated=" + dateCreated +
+                ", dateChanged=" + dateChanged +
                 '}';
     }
 }

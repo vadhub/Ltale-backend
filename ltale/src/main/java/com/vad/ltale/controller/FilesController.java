@@ -1,5 +1,7 @@
 package com.vad.ltale.controller;
 
+import com.vad.ltale.entity.Image;
+import com.vad.ltale.entity.Message;
 import com.vad.ltale.entity.ResponseMessage;
 import com.vad.ltale.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,11 @@ public class FilesController {
         this.fileStorage = fileStorage;
     }
 
-    @PostMapping("/upload/audio")
-    public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestParam("title") String title, @RequestParam("id_user") int idUser) {
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestBody Message message) {
         String messageResponse = "";
         try {
-            fileStorage.saveAudio(file, title, idUser);
+            fileStorage.saveAudio(file, message);
             messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
@@ -35,11 +37,11 @@ public class FilesController {
         }
     }
 
-    @PostMapping("/upload/image")
-    public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestParam("id_user") int idUser, @RequestParam("is_icon") int isIcon) {
+    @PostMapping("/upload")
+    public ResponseEntity<ResponseMessage> uploadImage(@RequestPart("file") MultipartFile file, @RequestBody Image image) {
         String messageResponse = "";
         try {
-            fileStorage.saveImg(file, idUser, isIcon);
+            fileStorage.saveImg(file, image);
             messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
