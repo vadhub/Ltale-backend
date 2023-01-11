@@ -14,15 +14,17 @@ import com.vad.ltale.repository.MessageRepository;
 import com.vad.ltale.entity.Image;
 import com.vad.ltale.entity.Message;
 import com.vad.ltale.security.BCrypt;
+import com.vad.ltale.security.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageService implements FileStorage{
-    private final Path root = Paths.get("uploads/");
+    private final Path root = Paths.get("uploads");
     private final MessageRepository messageRepository;
     private final ImageRepository imageRepository;
 
@@ -33,7 +35,10 @@ public class FileStorageService implements FileStorage{
         this.messageRepository = messageRepository;
         this.imageRepository = imageRepository;
         this.bCrypt = bCrypt;
+    }
 
+    @Override
+    public void init() {
         try {
             Files.createDirectories(root);
         } catch (IOException e) {
@@ -58,8 +63,8 @@ public class FileStorageService implements FileStorage{
     @Override
     public void saveImg(ImageRequest imageRequest) {
         try {
-            String img = bCrypt.passwordEncoder().encode(imageRequest.getImageUri());
-            Files.copy(imageRequest.getFile().getInputStream(), Path.of(img));
+            String img = Hash.digest(imageRequest.getFile().getName());
+            Files.copy(imageRequest.getFile().getInputStream(), root.resolve(Path.of(img)));
             Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged());
             imageRepository.save(temp);
         } catch (Exception e) {

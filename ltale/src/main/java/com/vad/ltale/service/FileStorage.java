@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 
 public interface FileStorage {
 
+    void init();
+
     void saveAudio(MultipartFile file, Message message);
 
     void saveImg(ImageRequest imageRequest);
