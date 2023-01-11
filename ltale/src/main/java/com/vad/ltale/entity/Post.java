@@ -6,7 +6,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "post")
-public class Message {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_post")
@@ -28,10 +28,10 @@ public class Message {
     private Date dateChanged;
 
 
-    public Message() {
+    public Post() {
     }
 
-    public Message(Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
+    public Post(Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
         this.audioId = audioId;
         this.imageId = imageId;
         this.userId = userId;
@@ -39,7 +39,7 @@ public class Message {
         this.dateChanged = dateChanged;
     }
 
-    public Message(int id, Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
+    public Post(int id, Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
         this.id = id;
         this.audioId = audioId;
         this.imageId = imageId;

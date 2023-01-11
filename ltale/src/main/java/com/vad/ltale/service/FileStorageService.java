@@ -6,30 +6,31 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import com.vad.ltale.entity.Audio;
 import com.vad.ltale.entity.FileRequest;
 import com.vad.ltale.entity.ImageRequest;
+import com.vad.ltale.repository.AudioRepository;
 import com.vad.ltale.repository.ImageRepository;
-import com.vad.ltale.repository.MessageRepository;
 import com.vad.ltale.entity.Image;
-import com.vad.ltale.security.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 @Service
 public class FileStorageService implements FileStorage{
     private final Path root = Paths.get("uploads");
-    private final MessageRepository messageRepository;
     private final ImageRepository imageRepository;
+    private final AudioRepository audioRepository;
 
     @Autowired
-    public FileStorageService(MessageRepository messageRepository, ImageRepository imageRepository) {
-        this.messageRepository = messageRepository;
+    public FileStorageService(ImageRepository imageRepository, AudioRepository audioRepository) {
         this.imageRepository = imageRepository;
+        this.audioRepository = audioRepository;
     }
 
     @Override
@@ -44,10 +45,10 @@ public class FileStorageService implements FileStorage{
     @Override
     public void saveAudio(FileRequest request) {
         try {
-            String audio = Hash.digest(request.getFile().getName());
+            String audio = DigestUtils.md5DigestAsHex(Objects.requireNonNull(request.getFile().getOriginalFilename()).getBytes());
             Files.copy(request.getFile().getInputStream(), this.root.resolve(audio));
             Audio temp = new Audio(audio, request.getDateCreated(), request.getDateChanged());
-
+            audioRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -59,7 +60,7 @@ public class FileStorageService implements FileStorage{
     @Override
     public void saveImage(ImageRequest imageRequest) {
         try {
-            String img = Hash.digest(imageRequest.getFile().getName());
+            String img = DigestUtils.md5DigestAsHex(Objects.requireNonNull(imageRequest.getFile().getOriginalFilename()).getBytes());
             Files.copy(imageRequest.getFile().getInputStream(), root.resolve(img));
             Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged(), imageRequest.getIsIcon());
             imageRepository.save(temp);
