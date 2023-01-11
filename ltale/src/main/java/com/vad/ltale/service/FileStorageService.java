@@ -8,19 +8,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import com.vad.ltale.entity.Audio;
+import com.vad.ltale.entity.FileRequest;
 import com.vad.ltale.entity.ImageRequest;
 import com.vad.ltale.repository.ImageRepository;
 import com.vad.ltale.repository.MessageRepository;
 import com.vad.ltale.entity.Image;
-import com.vad.ltale.entity.Message;
-import com.vad.ltale.security.BCrypt;
 import com.vad.ltale.security.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageService implements FileStorage{
@@ -28,13 +26,10 @@ public class FileStorageService implements FileStorage{
     private final MessageRepository messageRepository;
     private final ImageRepository imageRepository;
 
-    private final BCrypt bCrypt;
-
     @Autowired
-    public FileStorageService(MessageRepository messageRepository, ImageRepository imageRepository, BCrypt bCrypt) {
+    public FileStorageService(MessageRepository messageRepository, ImageRepository imageRepository) {
         this.messageRepository = messageRepository;
         this.imageRepository = imageRepository;
-        this.bCrypt = bCrypt;
     }
 
     @Override
@@ -47,11 +42,12 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void saveAudio(MultipartFile file, Message message) {
+    public void saveAudio(FileRequest request) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
-            Message temp = new Message(bCrypt.passwordEncoder().encode(message.getUri()), message.getDateCreated(), message.getDateChanged(), message.getImageId());
-            messageRepository.save(temp);
+            String audio = Hash.digest(request.getFile().getName());
+            Files.copy(request.getFile().getInputStream(), this.root.resolve(audio));
+            Audio temp = new Audio(audio, request.getDateCreated(), request.getDateChanged());
+
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -61,11 +57,11 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void saveImg(ImageRequest imageRequest) {
+    public void saveImage(ImageRequest imageRequest) {
         try {
             String img = Hash.digest(imageRequest.getFile().getName());
-            Files.copy(imageRequest.getFile().getInputStream(), root.resolve(Path.of(img)));
-            Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged());
+            Files.copy(imageRequest.getFile().getInputStream(), root.resolve(img));
+            Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged(), imageRequest.getIsIcon());
             imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {

@@ -1,8 +1,7 @@
 package com.vad.ltale.controller;
 
-import com.vad.ltale.entity.Image;
+import com.vad.ltale.entity.FileRequest;
 import com.vad.ltale.entity.ImageRequest;
-import com.vad.ltale.entity.Message;
 import com.vad.ltale.entity.ResponseMessage;
 import com.vad.ltale.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/api-v1")
@@ -26,14 +24,14 @@ public class FilesController {
     }
 
     @PostMapping("/upload/audio")
-    public ResponseEntity<ResponseMessage> uploadAudio(@RequestPart("file") MultipartFile file, @RequestBody Message message) {
+    public ResponseEntity<ResponseMessage> uploadAudio(@ModelAttribute FileRequest audio) {
         String messageResponse = "";
         try {
-            fileStorage.saveAudio(file, message);
-            messageResponse = "Uploaded the file successfully: " + file.getOriginalFilename();
+            fileStorage.saveAudio(audio);
+            messageResponse = "Uploaded the file successfully: " + audio.getFile().getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {
-            messageResponse = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+            messageResponse = "Could not upload the file: " + audio.getFile().getOriginalFilename() + ". Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(messageResponse));
         }
     }
@@ -42,7 +40,7 @@ public class FilesController {
     public ResponseEntity<ResponseMessage> uploadImage(@ModelAttribute ImageRequest imageRequest) {
         String messageResponse = "";
         try {
-            fileStorage.saveImg(imageRequest);
+            fileStorage.saveImage(imageRequest);
             messageResponse = "Uploaded the file successfully: " + imageRequest.getFile().getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
         } catch (Exception e) {

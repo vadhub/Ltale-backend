@@ -5,15 +5,21 @@ import jakarta.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "message")
+@Table(name = "post")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_message")
+    @Column(name = "id_post")
     private int id;
 
-    @Column(name = "uri_audio")
-    private String uri;
+    @Column(name = "audio_id")
+    private Long audioId;
+
+    @Column(name = "image_id")
+    private Long imageId;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "date_created")
     private Date dateCreated;
@@ -21,25 +27,25 @@ public class Message {
     @Column(name = "date_changed")
     private Date dateChanged;
 
-    @Column(name = "image_id_")
-    private int imageId;
 
     public Message() {
     }
 
-    public Message(int id, String uri, Date dateCreated, Date dateChanged, int imageId) {
-        this.id = id;
-        this.uri = uri;
+    public Message(Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
+        this.audioId = audioId;
+        this.imageId = imageId;
+        this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
-        this.imageId = imageId;
     }
 
-    public Message(String uri, Date dateCreated, Date dateChanged, int imageId) {
-        this.uri = uri;
+    public Message(int id, Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
+        this.id = id;
+        this.audioId = audioId;
+        this.imageId = imageId;
+        this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
-        this.imageId = imageId;
     }
 
     public int getId() {
@@ -50,20 +56,28 @@ public class Message {
         this.id = id;
     }
 
-    public String getUri() {
-        return uri;
+    public Long getAudioId() {
+        return audioId;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setAudioId(Long audioId) {
+        this.audioId = audioId;
     }
 
-    public int getImageId() {
+    public Long getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(Long imageId) {
         this.imageId = imageId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Date getDateCreated() {
@@ -86,10 +100,11 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "id=" + id +
-                ", uri='" + uri + '\'' +
+                ", audioId=" + audioId +
+                ", imageId=" + imageId +
+                ", userId=" + userId +
                 ", dateCreated=" + dateCreated +
                 ", dateChanged=" + dateChanged +
-                ", imageId=" + imageId +
                 '}';
     }
 }
