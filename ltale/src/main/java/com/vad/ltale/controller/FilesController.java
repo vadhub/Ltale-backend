@@ -1,8 +1,10 @@
 package com.vad.ltale.controller;
 
 import com.vad.ltale.entity.FileRequest;
-import com.vad.ltale.entity.ImageRequest;
+import com.vad.ltale.entity.Icon;
+import com.vad.ltale.entity.Image;
 import com.vad.ltale.entity.ResponseMessage;
+import com.vad.ltale.repository.IconRepository;
 import com.vad.ltale.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.*;
 public class FilesController {
 
     private final FileStorage fileStorage;
+    private final IconRepository iconRepository;
 
     @Autowired
-    public FilesController(FileStorage fileStorage) {
+    public FilesController(FileStorage fileStorage, IconRepository iconRepository) {
         this.fileStorage = fileStorage;
+        this.iconRepository = iconRepository;
     }
 
     @PostMapping("/upload/audio")
@@ -35,10 +39,23 @@ public class FilesController {
     }
 
     @PostMapping("/upload/image")
-    public ResponseEntity<Object> uploadImage(@ModelAttribute ImageRequest imageRequest) {
+    public ResponseEntity<Object> uploadImage(@ModelAttribute FileRequest imageRequest) {
         String messageResponse = "";
         try {
             return ResponseEntity.status(HttpStatus.OK).body(fileStorage.saveImage(imageRequest));
+        } catch (Exception e) {
+            messageResponse = "Could not upload the file: " + imageRequest.getFile().getOriginalFilename() + ". Error: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(messageResponse));
+        }
+    }
+
+    @PostMapping("/upload/icon")
+    public ResponseEntity<Object> uploadIcon(@ModelAttribute FileRequest imageRequest, @RequestParam Long userId) {
+        String messageResponse = "";
+        try {
+            Image image = fileStorage.saveImage(imageRequest);
+            iconRepository.save(new Icon(image.getIdImage(), userId));
+            return ResponseEntity.status(HttpStatus.OK).body(image);
         } catch (Exception e) {
             messageResponse = "Could not upload the file: " + imageRequest.getFile().getOriginalFilename() + ". Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(messageResponse));

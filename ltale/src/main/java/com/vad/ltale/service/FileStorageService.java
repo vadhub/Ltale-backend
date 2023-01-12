@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 
 import com.vad.ltale.entity.Audio;
 import com.vad.ltale.entity.FileRequest;
-import com.vad.ltale.entity.ImageRequest;
 import com.vad.ltale.repository.AudioRepository;
 import com.vad.ltale.repository.ImageRepository;
 import com.vad.ltale.entity.Image;
@@ -59,12 +58,12 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public Image saveImage(ImageRequest imageRequest) {
+    public Image saveImage(FileRequest imageRequest) {
         try {
             if (imageRequest.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
             String img = DigestUtils.md5DigestAsHex(Objects.requireNonNull(imageRequest.getFile().getOriginalFilename()).getBytes());
             Files.copy(imageRequest.getFile().getInputStream(), root.resolve(img));
-            Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged(), imageRequest.getIsIcon());
+            Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged());
             return imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {

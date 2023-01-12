@@ -21,26 +21,20 @@ public class Image {
     @Column(name="date_changed")
     private Date dateChanged;
 
-    @Column(name="is_icon")
-    private int isIcon;
-
     public Image() {
     }
 
-    public Image(Long idImage, String imageUri, Date dateCreated, Date dateChanged, int isIcon) {
+    public Image(Long idImage, String imageUri, Date dateCreated, Date dateChanged) {
         this.idImage = idImage;
         this.imageUri = imageUri;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
-        this.isIcon = isIcon;
     }
 
-    public Image(String imageUri, Date dateCreated, Date dateChanged, int isIcon) {
+    public Image(String imageUri, Date dateCreated, Date dateChanged) {
         this.imageUri = imageUri;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
-        this.isIcon = isIcon;
-
     }
 
     public Long getIdImage() {
@@ -76,13 +70,6 @@ public class Image {
         this.dateChanged = dateChanged;
     }
 
-    public int getIsIcon() {
-        return isIcon;
-    }
-
-    public void setIsIcon(int isIcon) {
-        this.isIcon = isIcon;
-    }
 
     @Override
     public String toString() {
@@ -91,7 +78,6 @@ public class Image {
                 ", imageUri='" + imageUri + '\'' +
                 ", dateCreated=" + dateCreated +
                 ", dateChanged=" + dateChanged +
-                ", isIcon=" + isIcon +
                 '}';
     }
 }

@@ -1,7 +1,6 @@
 package com.vad.ltale.service;
 
 import com.vad.ltale.entity.FileRequest;
-import com.vad.ltale.entity.ImageRequest;
 import com.vad.ltale.entity.Post;
 import com.vad.ltale.entity.PostRequest;
 import com.vad.ltale.repository.PostRepository;
@@ -30,11 +29,10 @@ public class PostServiceImpl implements PostService {
                             post.getDateCreated(),
                             post.getDateChanged())
                     ).getId(),
-                    fileStorage.saveImage(new ImageRequest(
+                    fileStorage.saveImage(new FileRequest(
                             post.getImage(),
                             post.getDateCreated(),
-                            post.getDateChanged(),
-                            0)
+                            post.getDateChanged())
                     ).getIdImage(),
                     post.getUserId(),
                     post.getDateCreated(),
