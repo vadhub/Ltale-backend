@@ -13,6 +13,12 @@ public class FileRequest implements Serializable {
 
     private Date dateChanged;
 
+    public FileRequest(MultipartFile file, Date dateCreated, Date dateChanged) {
+        this.file = file;
+        this.dateCreated = dateCreated;
+        this.dateChanged = dateChanged;
+    }
+
     public MultipartFile getFile() {
         return file;
     }

@@ -18,7 +18,7 @@ public class PostController {
 
     @ResponseBody
     @PostMapping("/post/save")
-    public Post savePost(@RequestBody PostRequest postRequest) {
+    public Post savePost(@ModelAttribute PostRequest postRequest) {
         return postService.save(postRequest);
     }
 }

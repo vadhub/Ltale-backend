@@ -1,5 +1,7 @@
 package com.vad.ltale.service;
 
+import com.vad.ltale.entity.FileRequest;
+import com.vad.ltale.entity.ImageRequest;
 import com.vad.ltale.entity.Post;
 import com.vad.ltale.entity.PostRequest;
 import com.vad.ltale.repository.PostRepository;
@@ -21,17 +23,30 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post save(PostRequest post) {
 
-        if (post.getImageRequest() != null) {
+        if (post.getImage() != null) {
             return postRepository.save(new Post(
-                    fileStorage.saveAudio(post.getAudio()).getId(),
-                    fileStorage.saveImage(post.getImageRequest()).getIdImage(),
+                    fileStorage.saveAudio(new FileRequest(
+                            post.getAudio(),
+                            post.getDateCreated(),
+                            post.getDateChanged())
+                    ).getId(),
+                    fileStorage.saveImage(new ImageRequest(
+                            post.getImage(),
+                            post.getDateCreated(),
+                            post.getDateChanged(),
+                            0)
+                    ).getIdImage(),
                     post.getUserId(),
                     post.getDateCreated(),
                     post.getDateChanged()
             ));
         } else {
             return postRepository.save(new Post(
-                    fileStorage.saveAudio(post.getAudio()).getId(),
+                    fileStorage.saveAudio(new FileRequest(
+                            post.getAudio(),
+                            post.getDateCreated(),
+                            post.getDateChanged())
+                    ).getId(),
                     post.getUserId(),
                     post.getDateCreated(),
                     post.getDateChanged()

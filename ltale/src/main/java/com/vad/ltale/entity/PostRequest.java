@@ -1,11 +1,13 @@
 package com.vad.ltale.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.sql.Date;
 
 public class PostRequest {
-    private FileRequest audio;
+    private MultipartFile audio;
 
-    private ImageRequest imageRequest;
+    private MultipartFile image;
 
     private Long userId;
 
@@ -13,20 +15,20 @@ public class PostRequest {
 
     private Date dateChanged;
 
-    public FileRequest getAudio() {
+    public MultipartFile getAudio() {
         return audio;
     }
 
-    public void setAudio(FileRequest audio) {
+    public void setAudio(MultipartFile audio) {
         this.audio = audio;
     }
 
-    public ImageRequest getImageRequest() {
-        return imageRequest;
+    public MultipartFile getImage() {
+        return image;
     }
 
-    public void setImageRequest(ImageRequest imageRequest) {
-        this.imageRequest = imageRequest;
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 
     public Long getUserId() {
