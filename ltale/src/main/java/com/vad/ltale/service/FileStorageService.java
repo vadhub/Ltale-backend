@@ -43,12 +43,13 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void saveAudio(FileRequest request) {
+    public Audio saveAudio(FileRequest request) {
         try {
+            if (request.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
             String audio = DigestUtils.md5DigestAsHex(Objects.requireNonNull(request.getFile().getOriginalFilename()).getBytes());
             Files.copy(request.getFile().getInputStream(), this.root.resolve(audio));
             Audio temp = new Audio(audio, request.getDateCreated(), request.getDateChanged());
-            audioRepository.save(temp);
+            return audioRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -58,12 +59,13 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public void saveImage(ImageRequest imageRequest) {
+    public Image saveImage(ImageRequest imageRequest) {
         try {
+            if (imageRequest.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
             String img = DigestUtils.md5DigestAsHex(Objects.requireNonNull(imageRequest.getFile().getOriginalFilename()).getBytes());
             Files.copy(imageRequest.getFile().getInputStream(), root.resolve(img));
             Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged(), imageRequest.getIsIcon());
-            imageRepository.save(temp);
+            return imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");

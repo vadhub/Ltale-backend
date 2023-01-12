@@ -10,7 +10,7 @@ public class Image {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id_image")
-    private int idImage;
+    private Long idImage;
 
     @Column(name="uri_image")
     private String imageUri;
@@ -27,7 +27,7 @@ public class Image {
     public Image() {
     }
 
-    public Image(int idImage, String imageUri, Date dateCreated, Date dateChanged, int isIcon) {
+    public Image(Long idImage, String imageUri, Date dateCreated, Date dateChanged, int isIcon) {
         this.idImage = idImage;
         this.imageUri = imageUri;
         this.dateCreated = dateCreated;
@@ -43,11 +43,11 @@ public class Image {
 
     }
 
-    public int getIdImage() {
+    public Long getIdImage() {
         return idImage;
     }
 
-    public void setIdImage(int idImage) {
+    public void setIdImage(Long idImage) {
         this.idImage = idImage;
     }
 

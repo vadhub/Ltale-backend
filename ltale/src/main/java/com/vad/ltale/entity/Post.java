@@ -31,6 +31,13 @@ public class Post {
     public Post() {
     }
 
+    public Post(Long audioId, Long userId, Date dateCreated, Date dateChanged) {
+        this.audioId = audioId;
+        this.userId = userId;
+        this.dateCreated = dateCreated;
+        this.dateChanged = dateChanged;
+    }
+
     public Post(Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
         this.audioId = audioId;
         this.imageId = imageId;

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface ImageRepository extends JpaRepository<Image, Integer> {
+public interface ImageRepository extends JpaRepository<Image, Long> {
 //    List<Image> findAllByUserId(int userId);
 
 //    @Query("FROM Image i WHERE i.userId = :userId AND i.isIcon = 1")

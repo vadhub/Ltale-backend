@@ -17,7 +17,7 @@ public class LtaleApplication implements CommandLineRunner{
 	}
 
 	@Override
-	public void run(String... arg) throws Exception {
+	public void run(String... arg) {
 		storageService.init();
 	}
 

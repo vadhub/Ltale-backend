@@ -24,12 +24,10 @@ public class FilesController {
     }
 
     @PostMapping("/upload/audio")
-    public ResponseEntity<ResponseMessage> uploadAudio(@ModelAttribute FileRequest audio) {
+    public ResponseEntity<Object> uploadAudio(@ModelAttribute FileRequest audio) {
         String messageResponse = "";
         try {
-            fileStorage.saveAudio(audio);
-            messageResponse = "Uploaded the file successfully: " + audio.getFile().getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
+            return ResponseEntity.status(HttpStatus.OK).body(fileStorage.saveAudio(audio));
         } catch (Exception e) {
             messageResponse = "Could not upload the file: " + audio.getFile().getOriginalFilename() + ". Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(messageResponse));
@@ -37,12 +35,10 @@ public class FilesController {
     }
 
     @PostMapping("/upload/image")
-    public ResponseEntity<ResponseMessage> uploadImage(@ModelAttribute ImageRequest imageRequest) {
+    public ResponseEntity<Object> uploadImage(@ModelAttribute ImageRequest imageRequest) {
         String messageResponse = "";
         try {
-            fileStorage.saveImage(imageRequest);
-            messageResponse = "Uploaded the file successfully: " + imageRequest.getFile().getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(messageResponse));
+            return ResponseEntity.status(HttpStatus.OK).body(fileStorage.saveImage(imageRequest));
         } catch (Exception e) {
             messageResponse = "Could not upload the file: " + imageRequest.getFile().getOriginalFilename() + ". Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(messageResponse));
