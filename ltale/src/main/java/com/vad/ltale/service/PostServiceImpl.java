@@ -21,8 +21,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post save(PostRequest post) {
-
-        if (post.getImage() != null) {
+    //todo refactoring
+        if (post.getImage() != null && !post.getImage().isEmpty()) {
             return postRepository.save(new Post(
                     fileStorage.saveAudio(new FileRequest(
                             post.getAudio(),
