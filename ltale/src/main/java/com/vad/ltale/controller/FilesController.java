@@ -2,7 +2,6 @@ package com.vad.ltale.controller;
 
 import com.vad.ltale.entity.*;
 import com.vad.ltale.repository.IconRepository;
-import com.vad.ltale.repository.UserRepository;
 import com.vad.ltale.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -19,13 +18,10 @@ public class FilesController {
     private final FileStorage fileStorage;
     private final IconRepository iconRepository;
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public FilesController(FileStorage fileStorage, IconRepository iconRepository, UserRepository userRepository) {
+    public FilesController(FileStorage fileStorage, IconRepository iconRepository) {
         this.fileStorage = fileStorage;
         this.iconRepository = iconRepository;
-        this.userRepository = userRepository;
     }
 
     @PostMapping("/upload/audio")
@@ -58,8 +54,7 @@ public class FilesController {
         String messageResponse = "";
         try {
             Image image = fileStorage.saveImage(imageRequest);
-            User user = userRepository.getReferenceById(userId);
-            iconRepository.save(new Icon(image, user));
+            iconRepository.save(new Icon(image, userId));
             return ResponseEntity.status(HttpStatus.OK).body(image);
         } catch (Exception e) {
             messageResponse = "Could not upload the file: " + imageRequest.getFile().getOriginalFilename() + ". Error: " + e.getMessage();

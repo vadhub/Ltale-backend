@@ -15,22 +15,21 @@ public class Icon {
     @JoinColumn(name="image_id")
     private Image image;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
-    private User user;
+    @Column(name="user_id")
+    private Long userId;
 
     public Icon() {
     }
 
-    public Icon(Long id, Image image, User user) {
+    public Icon(Long id, Image image, Long userId) {
         this.id = id;
         this.image = image;
-        this.user = user;
+        this.userId = userId;
     }
 
-    public Icon(Image image, User user) {
+    public Icon(Image image, Long userId) {
         this.image = image;
-        this.user = user;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -49,12 +48,12 @@ public class Icon {
         this.image = image;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUser() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -62,7 +61,7 @@ public class Icon {
         return "Icon{" +
                 "id=" + id +
                 ", image=" + image +
-                ", user=" + user +
+                ", user=" + userId +
                 '}';
     }
 }
