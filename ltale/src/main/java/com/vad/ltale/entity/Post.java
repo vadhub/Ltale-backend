@@ -3,6 +3,7 @@ package com.vad.ltale.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -12,13 +13,15 @@ public class Post {
     @Column(name = "id_post")
     private int id;
 
-    @Column(name = "audio_id")
-    private Long audioId;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="audio_id")
+    private List<Audio> audio;
 
-    @Column(name = "image_id")
-    private Long imageId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="image_id")
+    private Image image;
 
-    @Column(name = "user_id")
+    @Column(name="user_id")
     private Long userId;
 
     @Column(name = "date_created")
@@ -30,25 +33,25 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long audioId, Long userId, Date dateCreated, Date dateChanged) {
-        this.audioId = audioId;
+    public Post(List<Audio> audio, Image image, Long userId, Date dateCreated, Date dateChanged) {
+        this.audio = audio;
+        this.image = image;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
 
-    public Post(Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
-        this.audioId = audioId;
-        this.imageId = imageId;
+    public Post(List<Audio> audio, Long userId, Date dateCreated, Date dateChanged) {
+        this.audio = audio;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
 
-    public Post(int id, Long audioId, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
+    public Post(int id, List<Audio> audio, Image image, Long userId, Date dateCreated, Date dateChanged) {
         this.id = id;
-        this.audioId = audioId;
-        this.imageId = imageId;
+        this.audio = audio;
+        this.image = image;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
@@ -62,20 +65,20 @@ public class Post {
         this.id = id;
     }
 
-    public Long getAudioId() {
-        return audioId;
+    public List<Audio> getAudio() {
+        return audio;
     }
 
-    public void setAudioId(Long audioId) {
-        this.audioId = audioId;
+    public void setAudio(List<Audio> audio) {
+        this.audio = audio;
     }
 
-    public Long getImageId() {
-        return imageId;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImageId(Long imageId) {
-        this.imageId = imageId;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public Long getUserId() {
@@ -102,15 +105,5 @@ public class Post {
         this.dateChanged = dateChanged;
     }
 
-    @Override
-    public String toString() {
-        return "Message{" +
-                "id=" + id +
-                ", audioId=" + audioId +
-                ", imageId=" + imageId +
-                ", userId=" + userId +
-                ", dateCreated=" + dateCreated +
-                ", dateChanged=" + dateChanged +
-                '}';
-    }
+
 }
