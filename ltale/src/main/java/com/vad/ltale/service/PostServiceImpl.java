@@ -7,6 +7,8 @@ import com.vad.ltale.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+
 @Service
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
@@ -21,6 +23,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post save(PostRequest post) {
+        System.out.println(post);
     //todo refactoring
         if (post.getImage() != null && !post.getImage().isEmpty()) {
             return postRepository.save(new Post(
@@ -35,8 +38,8 @@ public class PostServiceImpl implements PostService {
                             post.getDateChanged())
                     ).getIdImage(),
                     post.getUserId(),
-                    post.getDateCreated(),
-                    post.getDateChanged()
+                    new Date(post.getDateCreated()),
+                    new Date(post.getDateChanged())
             ));
         } else {
             return postRepository.save(new Post(
@@ -46,8 +49,8 @@ public class PostServiceImpl implements PostService {
                             post.getDateChanged())
                     ).getId(),
                     post.getUserId(),
-                    post.getDateCreated(),
-                    post.getDateChanged()
+                    new Date(post.getDateCreated()),
+                    new Date(post.getDateChanged())
             ));
         }
     }

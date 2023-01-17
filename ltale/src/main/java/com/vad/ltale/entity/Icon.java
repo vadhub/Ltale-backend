@@ -11,24 +11,26 @@ public class Icon {
     @Column(name="id_icon")
     private Long id;
 
-    @Column(name="image_id")
-    private Long imageId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="image_id")
+    private Image image;
 
-    @Column(name="user_id")
-    private Long userId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
+    private User user;
 
     public Icon() {
     }
 
-    public Icon(Long imageId, Long userId) {
-        this.imageId = imageId;
-        this.userId = userId;
+    public Icon(Long id, Image image, User user) {
+        this.id = id;
+        this.image = image;
+        this.user = user;
     }
 
-    public Icon(Long id, Long imageId, Long userId) {
-        this.id = id;
-        this.imageId = imageId;
-        this.userId = userId;
+    public Icon(Image image, User user) {
+        this.image = image;
+        this.user = user;
     }
 
     public Long getId() {
@@ -39,28 +41,28 @@ public class Icon {
         this.id = id;
     }
 
-    public Long getImageId() {
-        return imageId;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImageId(Long imageId) {
-        this.imageId = imageId;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "Icon{" +
                 "id=" + id +
-                ", imageId=" + imageId +
-                ", userId=" + userId +
+                ", image=" + image +
+                ", user=" + user +
                 '}';
     }
 }

@@ -11,9 +11,9 @@ public class PostRequest {
 
     private Long userId;
 
-    private Date dateCreated;
+    private Long dateCreated;
 
-    private Date dateChanged;
+    private Long dateChanged;
 
     public MultipartFile getAudio() {
         return audio;
@@ -39,19 +39,30 @@ public class PostRequest {
         this.userId = userId;
     }
 
-    public Date getDateCreated() {
+    public Long getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    public void setDateCreated(Long dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Date getDateChanged() {
+    public Long getDateChanged() {
         return dateChanged;
     }
 
-    public void setDateChanged(Date dateChanged) {
+    public void setDateChanged(Long dateChanged) {
         this.dateChanged = dateChanged;
+    }
+
+    @Override
+    public String toString() {
+        return "PostRequest{" +
+                "audio=" + audio +
+                ", image=" + image +
+                ", userId=" + userId +
+                ", dateCreated=" + dateCreated +
+                ", dateChanged=" + dateChanged +
+                '}';
     }
 }

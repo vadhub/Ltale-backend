@@ -6,6 +6,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -43,11 +44,12 @@ public class FileStorageService implements FileStorage{
 
     @Override
     public Audio saveAudio(FileRequest request) {
+        System.out.println(request);
         try {
             if (request.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
             String audio = DigestUtils.md5DigestAsHex(Objects.requireNonNull(request.getFile().getOriginalFilename()).getBytes());
             Files.copy(request.getFile().getInputStream(), this.root.resolve(audio));
-            Audio temp = new Audio(audio, request.getDateCreated(), request.getDateChanged());
+            Audio temp = new Audio(audio, new Date(request.getDateCreated()), new Date(request.getDateChanged()));
             return audioRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -63,7 +65,7 @@ public class FileStorageService implements FileStorage{
             if (imageRequest.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
             String img = DigestUtils.md5DigestAsHex(Objects.requireNonNull(imageRequest.getFile().getOriginalFilename()).getBytes());
             Files.copy(imageRequest.getFile().getInputStream(), root.resolve(img));
-            Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged());
+            Image temp = new Image(img, new Date(imageRequest.getDateCreated()), new Date(imageRequest.getDateChanged()));
             return imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {

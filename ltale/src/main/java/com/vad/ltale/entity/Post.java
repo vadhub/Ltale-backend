@@ -27,7 +27,6 @@ public class Post {
     @Column(name = "date_changed")
     private Date dateChanged;
 
-
     public Post() {
     }
 
