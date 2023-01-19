@@ -34,7 +34,6 @@ public class SecurityConfig {
                         configure -> configure
                                 .requestMatchers(HttpMethod.POST,"/registration").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/login").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/files/search/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(configure -> configure.accessDeniedPage("/access-denied"))

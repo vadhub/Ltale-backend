@@ -3,7 +3,6 @@ package com.vad.ltale.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -13,13 +12,11 @@ public class Post {
     @Column(name = "id_post")
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "post_audios")
-    private List<Audio> audios;
+    @Column(name = "audio_id")
+    private Long audios_id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="image_id")
-    private Image image;
+    @Column(name="image_id")
+    private Long imageId;
 
     @Column(name="user_id")
     private Long userId;
@@ -33,25 +30,16 @@ public class Post {
     public Post() {
     }
 
-    public Post(List<Audio> audio, Image image, Long userId, Date dateCreated, Date dateChanged) {
-        this.audios = audio;
-        this.image = image;
+    public Post(Long audios_id, Long userId, Date dateCreated, Date dateChanged) {
+        this.audios_id = audios_id;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
 
-    public Post(List<Audio> audio, Long userId, Date dateCreated, Date dateChanged) {
-        this.audios = audio;
-        this.userId = userId;
-        this.dateCreated = dateCreated;
-        this.dateChanged = dateChanged;
-    }
-
-    public Post(int id, List<Audio> audio, Image image, Long userId, Date dateCreated, Date dateChanged) {
-        this.id = id;
-        this.audios = audio;
-        this.image = image;
+    public Post(Long audios_id, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
+        this.audios_id = audios_id;
+        this.imageId = imageId;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
@@ -65,20 +53,20 @@ public class Post {
         this.id = id;
     }
 
-    public List<Audio> getAudios() {
-        return audios;
+    public Long getAudios_id() {
+        return audios_id;
     }
 
-    public void setAudios(List<Audio> audio) {
-        this.audios = audio;
+    public void setAudios_id(Long audio) {
+        this.audios_id = audio;
     }
 
-    public Image getImage() {
-        return image;
+    public Long getImageId() {
+        return imageId;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 
     public Long getUserId() {
@@ -109,8 +97,8 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "id=" + id +
-                ", audio=" + audios +
-                ", image=" + image +
+                ", audio=" + audios_id +
+                ", image=" + imageId +
                 ", userId=" + userId +
                 ", dateCreated=" + dateCreated +
                 ", dateChanged=" + dateChanged +
