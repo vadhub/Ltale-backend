@@ -14,8 +14,8 @@ public class Post {
     private int id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="audio_id")
-    private List<Audio> audio;
+    @JoinTable(name = "post_audios")
+    private List<Audio> audios;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="image_id")
@@ -34,7 +34,7 @@ public class Post {
     }
 
     public Post(List<Audio> audio, Image image, Long userId, Date dateCreated, Date dateChanged) {
-        this.audio = audio;
+        this.audios = audio;
         this.image = image;
         this.userId = userId;
         this.dateCreated = dateCreated;
@@ -42,7 +42,7 @@ public class Post {
     }
 
     public Post(List<Audio> audio, Long userId, Date dateCreated, Date dateChanged) {
-        this.audio = audio;
+        this.audios = audio;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
@@ -50,7 +50,7 @@ public class Post {
 
     public Post(int id, List<Audio> audio, Image image, Long userId, Date dateCreated, Date dateChanged) {
         this.id = id;
-        this.audio = audio;
+        this.audios = audio;
         this.image = image;
         this.userId = userId;
         this.dateCreated = dateCreated;
@@ -65,12 +65,12 @@ public class Post {
         this.id = id;
     }
 
-    public List<Audio> getAudio() {
-        return audio;
+    public List<Audio> getAudios() {
+        return audios;
     }
 
-    public void setAudio(List<Audio> audio) {
-        this.audio = audio;
+    public void setAudios(List<Audio> audio) {
+        this.audios = audio;
     }
 
     public Image getImage() {
@@ -105,5 +105,15 @@ public class Post {
         this.dateChanged = dateChanged;
     }
 
-
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", audio=" + audios +
+                ", image=" + image +
+                ", userId=" + userId +
+                ", dateCreated=" + dateCreated +
+                ", dateChanged=" + dateChanged +
+                '}';
+    }
 }

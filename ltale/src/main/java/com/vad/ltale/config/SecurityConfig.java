@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -35,7 +34,7 @@ public class SecurityConfig {
                         configure -> configure
                                 .requestMatchers(HttpMethod.POST,"/registration").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/login").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/files/search").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/files/search/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(configure -> configure.accessDeniedPage("/access-denied"))
@@ -61,5 +60,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
         return auth.getAuthenticationManager();
     }
-
 }

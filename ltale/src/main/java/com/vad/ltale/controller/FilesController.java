@@ -62,10 +62,20 @@ public class FilesController {
         }
     }
 
+    @GetMapping("/files/search/icon")
+    @ResponseBody
+    public ResponseEntity<Resource> getIcon(@RequestParam Long userId) {
+        Image image = iconRepository.getIconByUserId(userId).getImage();
+        Resource file = fileStorage.load("uploads/"+image.getImageUri());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
     @GetMapping("/files/search")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@RequestParam String filename) {
-        Resource file = fileStorage.load("uploads/"+filename);
+    public ResponseEntity<Resource> getFile(@RequestParam Long userId) {
+        Image image = iconRepository.getIconByUserId(userId).getImage();
+        Resource file = fileStorage.load("uploads/"+image.getImageUri());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
