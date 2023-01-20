@@ -18,5 +18,7 @@ public interface FileStorage {
 
     Resource load(String directory);
 
+    Resource loadById(Long id);
+
     Stream<Path> loadAll();
 }

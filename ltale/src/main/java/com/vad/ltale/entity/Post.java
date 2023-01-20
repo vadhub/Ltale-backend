@@ -13,7 +13,7 @@ public class Post {
     private int id;
 
     @Column(name = "audio_id")
-    private Long audios_id;
+    private Long audioId;
 
     @Column(name="image_id")
     private Long imageId;
@@ -31,14 +31,14 @@ public class Post {
     }
 
     public Post(Long audios_id, Long userId, Date dateCreated, Date dateChanged) {
-        this.audios_id = audios_id;
+        this.audioId = audios_id;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
 
     public Post(Long audios_id, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
-        this.audios_id = audios_id;
+        this.audioId = audios_id;
         this.imageId = imageId;
         this.userId = userId;
         this.dateCreated = dateCreated;
@@ -53,12 +53,12 @@ public class Post {
         this.id = id;
     }
 
-    public Long getAudios_id() {
-        return audios_id;
+    public Long getAudioId() {
+        return audioId;
     }
 
-    public void setAudios_id(Long audio) {
-        this.audios_id = audio;
+    public void setAudioId(Long audio) {
+        this.audioId = audio;
     }
 
     public Long getImageId() {
@@ -97,7 +97,7 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "id=" + id +
-                ", audio=" + audios_id +
+                ", audio=" + audioId +
                 ", image=" + imageId +
                 ", userId=" + userId +
                 ", dateCreated=" + dateCreated +

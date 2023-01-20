@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -63,7 +64,7 @@ public class FileStorageService implements FileStorage{
     public Image saveImage(FileRequest imageRequest) {
         try {
             if (imageRequest.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
-            String img = DigestUtils.md5DigestAsHex(Objects.requireNonNull(imageRequest.getFile().getOriginalFilename()).getBytes());
+            String img = DigestUtils.md5DigestAsHex((imageRequest.getFile().getOriginalFilename()+" "+System.currentTimeMillis()).getBytes());
             Files.copy(imageRequest.getFile().getInputStream(), root.resolve(img));
             Image temp = new Image(img, new Date(imageRequest.getDateCreated()), new Date(imageRequest.getDateChanged()));
             return imageRepository.save(temp);
@@ -79,6 +80,22 @@ public class FileStorageService implements FileStorage{
     public Resource load(String directory) {
         try {
             Path file = Paths.get(directory);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Resource loadById(Long id) {
+        try {
+            String uri = imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("non exist")).getImageUri();
+            Path file = Paths.get("uploads/"+uri);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
