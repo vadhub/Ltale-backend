@@ -2,10 +2,10 @@ package com.vad.ltale.entity;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Date;
+import java.util.List;
 
 public class PostRequest {
-    private MultipartFile audio;
+    private List<MultipartFile> audio;
 
     private MultipartFile image;
 
@@ -15,11 +15,11 @@ public class PostRequest {
 
     private Long dateChanged;
 
-    public MultipartFile getAudio() {
+    public List<MultipartFile> getAudio() {
         return audio;
     }
 
-    public void setAudio(MultipartFile audio) {
+    public void setAudio(List<MultipartFile> audio) {
         this.audio = audio;
     }
 

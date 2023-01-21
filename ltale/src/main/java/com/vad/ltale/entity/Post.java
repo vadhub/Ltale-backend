@@ -10,10 +10,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_post")
-    private int id;
-
-    @Column(name = "audio_id")
-    private Long audioId;
+    private Long id;
 
     @Column(name="image_id")
     private Long imageId;
@@ -30,35 +27,25 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long audios_id, Long userId, Date dateCreated, Date dateChanged) {
-        this.audioId = audios_id;
+    public Post(Long userId, Date dateCreated, Date dateChanged) {
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
 
-    public Post(Long audios_id, Long imageId, Long userId, Date dateCreated, Date dateChanged) {
-        this.audioId = audios_id;
+    public Post(Long imageId, Long userId, Date dateCreated, Date dateChanged) {
         this.imageId = imageId;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getAudioId() {
-        return audioId;
-    }
-
-    public void setAudioId(Long audio) {
-        this.audioId = audio;
     }
 
     public Long getImageId() {
@@ -97,7 +84,6 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "id=" + id +
-                ", audio=" + audioId +
                 ", image=" + imageId +
                 ", userId=" + userId +
                 ", dateCreated=" + dateCreated +
