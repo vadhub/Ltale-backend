@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -72,5 +71,22 @@ public class PostServiceImpl implements PostService {
                 post.getDateChanged(),
                 fileStorage.getAudiosById(ids)
         );
+    }
+
+    @Override
+    public List<NestedPost> getByUserId(Long id) {
+
+        List<Post> postIds = postRepository.findAllByUserId(id);
+
+        return postIds.stream().map(
+                post -> new NestedPost(
+                        fileStorage.getImageById(post.getImageId()),
+                        post.getDateCreated(),
+                        post.getDateChanged(),
+                        fileStorage.getAudiosById(
+                                postAndAudioRepository.getPostAndAudiosByPostId(post.getId()).stream().map(PostAndAudio::getAudioId).toList()
+                        )
+                )
+        ).toList();
     }
 }

@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api-v1")
@@ -26,16 +26,13 @@ public class PostController {
     }
 
 
-    @GetMapping("/poste/{idPost}")
+    @GetMapping("/post/{idPost}")
     public NestedPost getPost(@PathVariable Long idPost) {
-        List l = List.of(
-                new Audio("4344", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis())),
-                new Audio("4344", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()))
-        );
-        return new NestedPost(
-                new Image("4344", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis())),
-                new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()),
-                l
-        );
+        return postService.getOne(idPost);
+    }
+
+    @GetMapping("/postsByUserId/{userId}")
+    public List<NestedPost> getPostByUserId(@PathVariable Long userId) {
+        return postService.getByUserId(userId);
     }
 }
