@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public class PostRequest {
-    private List<MultipartFile> audio;
+    private List<AudioRequest> audio;
 
     private MultipartFile image;
 
@@ -15,11 +15,11 @@ public class PostRequest {
 
     private Long dateChanged;
 
-    public List<MultipartFile> getAudio() {
+    public List<AudioRequest> getAudio() {
         return audio;
     }
 
-    public void setAudio(List<MultipartFile> audio) {
+    public void setAudio(List<AudioRequest> audio) {
         this.audio = audio;
     }
 

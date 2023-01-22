@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import com.vad.ltale.entity.Audio;
+import com.vad.ltale.entity.AudioRequest;
 import com.vad.ltale.entity.FileRequest;
 import com.vad.ltale.repository.AudioRepository;
 import com.vad.ltale.repository.ImageRepository;
@@ -45,13 +46,12 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public Audio saveAudio(FileRequest request) {
-        System.out.println(request);
+    public Audio saveAudio(AudioRequest audioRequest) {
         try {
-            if (request.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
-            String audio = DigestUtils.md5DigestAsHex(Objects.requireNonNull(request.getFile().getOriginalFilename()).getBytes());
-            Files.copy(request.getFile().getInputStream(), this.root.resolve(audio));
-            Audio temp = new Audio(audio, new Date(request.getDateCreated()), new Date(request.getDateChanged()));
+            if (audioRequest.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
+            String audio = DigestUtils.md5DigestAsHex(Objects.requireNonNull(audioRequest.getFile().getOriginalFilename()).getBytes());
+            Files.copy(audioRequest.getFile().getInputStream(), this.root.resolve(audio));
+            Audio temp = new Audio(audio, audioRequest.getDuration());
             return audioRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {

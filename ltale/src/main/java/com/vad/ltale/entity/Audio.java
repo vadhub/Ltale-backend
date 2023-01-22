@@ -16,26 +16,22 @@ public class Audio {
     @Column(name = "uri_audio")
     private String uri;
 
-    @Column(name = "date_created")
-    private Date dateCreated;
+    @Column(name = "duration")
+    private Long duration;
 
-    @Column(name = "date_changed")
-    private Date dateChanged;
 
     public Audio() {
     }
 
-    public Audio(Long id, String uri, Date dateCreated, Date dateChanged) {
+    public Audio(Long id, String uri, Long duration) {
         this.id = id;
         this.uri = uri;
-        this.dateCreated = dateCreated;
-        this.dateChanged = dateChanged;
+        this.duration = duration;
     }
 
-    public Audio(String uri, Date dateCreated, Date dateChanged) {
+    public Audio(String uri, Long duration) {
         this.uri = uri;
-        this.dateCreated = dateCreated;
-        this.dateChanged = dateChanged;
+        this.duration = duration;
     }
 
     public Long getId() {
@@ -54,20 +50,12 @@ public class Audio {
         this.uri = uri;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
+    public Long getDuration() {
+        return duration;
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public Date getDateChanged() {
-        return dateChanged;
-    }
-
-    public void setDateChanged(Date dateChanged) {
-        this.dateChanged = dateChanged;
+    public void setDuration(Long duration) {
+        this.duration = duration;
     }
 
     @Override
@@ -75,8 +63,7 @@ public class Audio {
         return "Audio{" +
                 "id=" + id +
                 ", uri='" + uri + '\'' +
-                ", dateCreated=" + dateCreated +
-                ", dateChanged=" + dateChanged +
+                ", duration=" + duration +
                 '}';
     }
 }

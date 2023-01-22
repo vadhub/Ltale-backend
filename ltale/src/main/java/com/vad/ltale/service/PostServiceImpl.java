@@ -53,7 +53,7 @@ public class PostServiceImpl implements PostService {
 
         Post finalResponse = response;
         post.getAudio().stream().map(
-                mb -> new PostAndAudio(finalResponse.getId(), fileStorage.saveAudio(new FileRequest(mb, post.getDateCreated(), post.getDateChanged())).getId())
+                mb -> new PostAndAudio(finalResponse.getId(), fileStorage.saveAudio(mb).getId())
         ).forEach(postAndAudioRepository::save);
 
         return response;
