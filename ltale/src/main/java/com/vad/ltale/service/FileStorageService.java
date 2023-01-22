@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -108,6 +109,16 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
+    public List<Audio> getAudiosById(List<Long> id) {
+        return audioRepository.findAllById(id);
+    }
+
+    @Override
+    public Image getImageById(Long id) {
+        return imageRepository.findById(id).orElse(new Image());
+    }
+
+    @Override
     public Stream<Path> loadAll() {
         try {
             return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
@@ -115,4 +126,7 @@ public class FileStorageService implements FileStorage{
             throw new RuntimeException("Could not load the files!");
         }
     }
+
+
+
 }

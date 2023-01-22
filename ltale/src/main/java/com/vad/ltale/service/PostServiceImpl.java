@@ -1,16 +1,14 @@
 package com.vad.ltale.service;
 
-import com.vad.ltale.entity.FileRequest;
-import com.vad.ltale.entity.Post;
-import com.vad.ltale.entity.PostAndAudio;
-import com.vad.ltale.entity.PostRequest;
+import com.vad.ltale.entity.*;
 import com.vad.ltale.repository.PostAndAudioRepository;
 import com.vad.ltale.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -63,7 +61,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getOne(Long id) {
-        return null;
+    public NestedPost getOne(Long id) {
+        var post = postRepository.findById(id).orElse(new Post());
+        List<Long> ids = postAndAudioRepository.getPostAndAudiosByPostId(id)
+                .stream().map(PostAndAudio::getAudioId).toList();
+
+        return new NestedPost(
+                fileStorage.getImageById(post.getImageId()),
+                post.getDateCreated(),
+                post.getDateChanged(),
+                fileStorage.getAudiosById(ids)
+        );
     }
 }

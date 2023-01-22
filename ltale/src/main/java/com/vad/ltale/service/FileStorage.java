@@ -6,6 +6,7 @@ import com.vad.ltale.entity.Image;
 import org.springframework.core.io.Resource;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 public interface FileStorage {
@@ -19,6 +20,10 @@ public interface FileStorage {
     Resource load(String directory);
 
     Resource loadById(Long id);
+
+    List<Audio> getAudiosById(List<Long> id);
+
+    Image getImageById(Long id);
 
     Stream<Path> loadAll();
 }
