@@ -1,7 +1,6 @@
 package com.vad.ltale.service;
 
 import com.vad.ltale.entity.Audio;
-import com.vad.ltale.entity.AudioRequest;
 import com.vad.ltale.entity.FileRequest;
 import com.vad.ltale.entity.Image;
 import org.springframework.core.io.Resource;
@@ -14,7 +13,7 @@ public interface FileStorage {
 
     void init();
 
-    Audio saveAudio(AudioRequest audioRequest);
+    Audio saveAudio(FileRequest audioRequest, Long duration);
 
     Image saveImage(FileRequest imageRequest);
 

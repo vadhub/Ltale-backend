@@ -46,12 +46,12 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public Audio saveAudio(AudioRequest audioRequest) {
+    public Audio saveAudio(FileRequest audioRequest, Long duration) {
         try {
             if (audioRequest.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
             String audio = DigestUtils.md5DigestAsHex(Objects.requireNonNull(audioRequest.getFile().getOriginalFilename()).getBytes());
             Files.copy(audioRequest.getFile().getInputStream(), this.root.resolve(audio));
-            Audio temp = new Audio(audio, audioRequest.getDuration());
+            Audio temp = new Audio(audio, duration);
             return audioRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {

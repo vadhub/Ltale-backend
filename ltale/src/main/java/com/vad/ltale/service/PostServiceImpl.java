@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -52,9 +56,12 @@ public class PostServiceImpl implements PostService {
         }
 
         Post finalResponse = response;
-        post.getAudio().stream().map(
-                mb -> new PostAndAudio(finalResponse.getId(), fileStorage.saveAudio(mb).getId())
-        ).forEach(postAndAudioRepository::save);
+
+        IntStream.range(0, post.getAudio().size())
+                .mapToObj(i -> new PostAndAudio(
+                        finalResponse.getId(),
+                        fileStorage.saveAudio(new FileRequest(post.getAudio().get(i)), post.getDuration().get(i)).getId())
+                ).forEach(postAndAudioRepository::save);
 
         return response;
     }

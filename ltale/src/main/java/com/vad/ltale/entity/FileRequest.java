@@ -18,6 +18,11 @@ public class FileRequest implements Serializable {
         this.dateChanged = dateChanged;
     }
 
+    public FileRequest(MultipartFile file) {
+        this.file = file;
+    }
+
+
     public MultipartFile getFile() {
         return file;
     }
