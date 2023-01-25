@@ -28,7 +28,7 @@ public class FilesController {
     public ResponseEntity<Object> uploadAudio(@ModelAttribute FileRequest audio) {
         String messageResponse = "";
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(fileStorage.saveAudio(audio));
+            return ResponseEntity.status(HttpStatus.OK).body(fileStorage.saveAudio(audio, 0L));
         } catch (Exception e) {
             if (audio.getFile() == null) {
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("file is null"));
@@ -64,8 +64,11 @@ public class FilesController {
 
     @GetMapping("/files/search/icon")
     @ResponseBody
-    public ResponseEntity<Resource> getIcon(@RequestParam Long userId) {
-        Image image = iconRepository.getIconByUserId(userId).getImage();
+    public ResponseEntity<Object> getIcon(@RequestParam Long userId) {
+        Image image = iconRepository.getIconByUserId(userId).orElse(new Icon()).getImage();
+        if (image == null) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("not found"));
+        }
         Resource file = fileStorage.load("uploads/"+image.getImageUri());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
