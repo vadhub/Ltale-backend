@@ -31,39 +31,26 @@ public class PostServiceImpl implements PostService {
     public Post save(PostRequest post) {
         //todo refactoring
         Post response;
-        if (post.getImage() != null && !post.getImage().isEmpty()) {
+//        if (post.getImage() != null && !post.getImage().isEmpty()) {
+//
+//        } else {
+//            response = postRepository.save(new Post(
+//                            post.getUserId(),
+//                            new Date(post.getDateCreated()),
+//                            new Date(post.getDateChanged())
+//                    )
+//            );
+//        }
 
-            response = postRepository.save(new Post(
-                            fileStorage.saveImage(
-                                    new FileRequest(
-                                            post.getImage(),
-                                            post.getDateCreated(),
-                                            post.getDateChanged())
-                            ).getIdImage(),
-                            post.getUserId(),
-                            new Date(post.getDateCreated()),
-                            new Date(post.getDateChanged())
-                    )
-            );
+        //Post finalResponse = response;
 
-        } else {
-            response = postRepository.save(new Post(
-                            post.getUserId(),
-                            new Date(post.getDateCreated()),
-                            new Date(post.getDateChanged())
-                    )
-            );
-        }
+//        IntStream.range(0, post.getAudio().size())
+//                .mapToObj(i -> new PostAndAudio(
+//                        finalResponse.getId(),
+//                        fileStorage.saveAudio(new FileRequest(post.getAudio().get(i)), post.getDuration().get(i)).getId())
+//                ).forEach(postAndAudioRepository::save);
 
-        Post finalResponse = response;
-
-        IntStream.range(0, post.getAudio().size())
-                .mapToObj(i -> new PostAndAudio(
-                        finalResponse.getId(),
-                        fileStorage.saveAudio(new FileRequest(post.getAudio().get(i)), post.getDuration().get(i)).getId())
-                ).forEach(postAndAudioRepository::save);
-
-        return response;
+        return null;
     }
 
     @Override
@@ -71,29 +58,31 @@ public class PostServiceImpl implements PostService {
         var post = postRepository.findById(id).orElse(new Post());
         List<Long> ids = postAndAudioRepository.getPostAndAudiosByPostId(id)
                 .stream().map(PostAndAudio::getAudioId).toList();
-
-        return new NestedPost(
-                fileStorage.getImageById(post.getImageId()),
-                post.getDateCreated(),
-                post.getDateChanged(),
-                fileStorage.getAudiosById(ids)
-        );
+        return null;
+//        return new NestedPost(
+//                fileStorage.getImageById(post.getImageId()),
+//                post.getDateCreated(),
+//                post.getDateChanged(),
+//                fileStorage.getAudiosById(ids)
+//        );
     }
 
     @Override
     public List<NestedPost> getByUserId(Long id) {
 
-        List<Post> postIds = postRepository.findAllByUserId(id);
+        return null;
 
-        return postIds.stream().map(
-                post -> new NestedPost(
-                        fileStorage.getImageById(post.getImageId()),
-                        post.getDateCreated(),
-                        post.getDateChanged(),
-                        fileStorage.getAudiosById(
-                                postAndAudioRepository.getPostAndAudiosByPostId(post.getId()).stream().map(PostAndAudio::getAudioId).toList()
-                        )
-                )
-        ).toList();
+//        List<Post> postIds = postRepository.findAllByUserId(id);
+//
+//        return postIds.stream().map(
+//                post -> new NestedPost(
+//                        fileStorage.getImageById(post.getImageId()),
+//                        post.getDateCreated(),
+//                        post.getDateChanged(),
+//                        fileStorage.getAudiosById(
+//                                postAndAudioRepository.getPostAndAudiosByPostId(post.getId()).stream().map(PostAndAudio::getAudioId).toList()
+//                        )
+//                )
+//        ).toList();
     }
 }

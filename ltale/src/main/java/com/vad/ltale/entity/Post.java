@@ -12,11 +12,13 @@ public class Post {
     @Column(name = "id_post")
     private Long id;
 
-    @Column(name="image_id")
-    private Long imageId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id")
+    private Image image;
 
-    @Column(name="user_id")
-    private Long userId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Column(name = "date_created")
     private Date dateCreated;
@@ -27,15 +29,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long userId, Date dateCreated, Date dateChanged) {
-        this.userId = userId;
-        this.dateCreated = dateCreated;
-        this.dateChanged = dateChanged;
-    }
-
-    public Post(Long imageId, Long userId, Date dateCreated, Date dateChanged) {
-        this.imageId = imageId;
-        this.userId = userId;
+    public Post(Date dateCreated, Date dateChanged) {
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
@@ -48,20 +42,20 @@ public class Post {
         this.id = id;
     }
 
-    public Long getImageId() {
-        return imageId;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImageId(Long imageId) {
-        this.imageId = imageId;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getDateCreated() {
@@ -84,8 +78,8 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "id=" + id +
-                ", image=" + imageId +
-                ", userId=" + userId +
+                ", image=" + image +
+                ", userId=" + user +
                 ", dateCreated=" + dateCreated +
                 ", dateChanged=" + dateChanged +
                 '}';
