@@ -20,14 +20,13 @@ public class Audio {
     private Long duration;
 
 
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "id_post")
+    private Post post;
+
     public Audio() {
     }
 
-    public Audio(Long id, String uri, Long duration) {
-        this.id = id;
-        this.uri = uri;
-        this.duration = duration;
-    }
 
     public Audio(String uri, Long duration) {
         this.uri = uri;
@@ -56,6 +55,14 @@ public class Audio {
 
     public void setDuration(Long duration) {
         this.duration = duration;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     @Override

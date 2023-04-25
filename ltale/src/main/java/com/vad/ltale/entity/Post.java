@@ -3,6 +3,7 @@ package com.vad.ltale.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -25,6 +26,9 @@ public class Post {
 
     @Column(name = "date_changed")
     private Date dateChanged;
+
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    private List<Audio> audioList;
 
     public Post() {
     }
@@ -74,14 +78,23 @@ public class Post {
         this.dateChanged = dateChanged;
     }
 
+    public List<Audio> getAudioList() {
+        return audioList;
+    }
+
+    public void setAudioList(List<Audio> audioList) {
+        this.audioList = audioList;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", image=" + image +
-                ", userId=" + user +
+                ", user=" + user +
                 ", dateCreated=" + dateCreated +
                 ", dateChanged=" + dateChanged +
+                ", audioList=" + audioList +
                 '}';
     }
 }
