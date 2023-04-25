@@ -86,15 +86,5 @@ public class Post {
         this.audioList = audioList;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", image=" + image +
-                ", user=" + user +
-                ", dateCreated=" + dateCreated +
-                ", dateChanged=" + dateChanged +
-                ", audioList=" + audioList +
-                '}';
-    }
+
 }
