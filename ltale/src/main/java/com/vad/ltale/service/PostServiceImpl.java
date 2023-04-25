@@ -1,29 +1,21 @@
 package com.vad.ltale.service;
 
 import com.vad.ltale.entity.*;
-import com.vad.ltale.repository.PostAndAudioRepository;
 import com.vad.ltale.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final PostAndAudioRepository postAndAudioRepository;
 
     private final FileStorage fileStorage;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository, PostAndAudioRepository postAndAudioRepository, FileStorage fileStorage) {
+    public PostServiceImpl(PostRepository postRepository, FileStorage fileStorage) {
         this.postRepository = postRepository;
-        this.postAndAudioRepository = postAndAudioRepository;
         this.fileStorage = fileStorage;
     }
 
@@ -55,9 +47,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public NestedPost getOne(Long id) {
-        var post = postRepository.findById(id).orElse(new Post());
-        List<Long> ids = postAndAudioRepository.getPostAndAudiosByPostId(id)
-                .stream().map(PostAndAudio::getAudioId).toList();
+
         return null;
 //        return new NestedPost(
 //                fileStorage.getImageById(post.getImageId()),
