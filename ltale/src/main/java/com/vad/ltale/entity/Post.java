@@ -26,7 +26,8 @@ public class Post {
     @Column(name = "date_changed")
     private Date dateChanged;
 
-    @OneToMany(mappedBy = "post", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "id_post")
     private List<Audio> audioList;
 
     public Post() {

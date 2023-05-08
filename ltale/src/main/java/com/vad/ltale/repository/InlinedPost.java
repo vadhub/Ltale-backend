@@ -11,6 +11,7 @@ import java.util.List;
 @Projection(name = "inlinePost", types = {Post.class})
 public interface InlinedPost {
     Long getId();
+    Long getUser();
     List<Audio> getAudioList();
     Image getImage();
     Date getDateCreated();

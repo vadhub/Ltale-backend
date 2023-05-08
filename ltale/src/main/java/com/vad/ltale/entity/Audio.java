@@ -19,9 +19,9 @@ public class Audio {
     private Long duration;
 
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "id_post")
-    private Post post;
+//    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+//    @JoinColumn(name = "id_post")
+//    private Post post;
 
     public Audio() {
     }
@@ -56,13 +56,13 @@ public class Audio {
         this.duration = duration;
     }
 
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
+//    public Post getPost() {
+//        return post;
+//    }
+//
+//    public void setPost(Post post) {
+//        this.post = post;
+//    }
 
     @Override
     public String toString() {
