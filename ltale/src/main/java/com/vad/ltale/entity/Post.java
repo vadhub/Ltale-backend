@@ -17,9 +17,8 @@ public class Post {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
-    private User user;
+    @Column(name="user_id")
+    private Long userId;
 
     @Column(name = "date_created")
     private Date dateCreated;
@@ -33,7 +32,10 @@ public class Post {
     public Post() {
     }
 
-    public Post(Date dateCreated, Date dateChanged) {
+    public Post(Long userId, Image image, List<Audio> audioList, Date dateCreated, Date dateChanged) {
+        this.userId = userId;
+        this.image = image;
+        this.audioList = audioList;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
     }
@@ -54,12 +56,12 @@ public class Post {
         this.image = image;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUser() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Long userId) {
+        this.userId = userId;
     }
 
     public Date getDateCreated() {

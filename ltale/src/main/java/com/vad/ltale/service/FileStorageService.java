@@ -67,7 +67,7 @@ public class FileStorageService implements FileStorage{
             if (imageRequest.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
             String img = DigestUtils.md5DigestAsHex((imageRequest.getFile().getOriginalFilename()+" "+System.currentTimeMillis()).getBytes());
             Files.copy(imageRequest.getFile().getInputStream(), root.resolve(img));
-            Image temp = new Image(img, new Date(imageRequest.getDateCreated()), new Date(imageRequest.getDateChanged()));
+            Image temp = new Image(img, imageRequest.getDateCreated(), imageRequest.getDateChanged());
             return imageRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {

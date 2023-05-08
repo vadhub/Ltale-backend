@@ -3,16 +3,17 @@ package com.vad.ltale.entity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class FileRequest implements Serializable {
 
     private MultipartFile file;
 
-    private Long dateCreated;
+    private Date dateCreated;
 
-    private Long dateChanged;
+    private Date dateChanged;
 
-    public FileRequest(MultipartFile file, Long dateCreated, Long dateChanged) {
+    public FileRequest(MultipartFile file, Date dateCreated, Date dateChanged) {
         this.file = file;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
@@ -31,19 +32,19 @@ public class FileRequest implements Serializable {
         this.file = file;
     }
 
-    public Long getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Long dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Long getDateChanged() {
+    public Date getDateChanged() {
         return dateChanged;
     }
 
-    public void setDateChanged(Long dateChanged) {
+    public void setDateChanged(Date dateChanged) {
         this.dateChanged = dateChanged;
     }
 

@@ -2,7 +2,6 @@ package com.vad.ltale.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
 
 @Entity
 @Table(name = "audio")

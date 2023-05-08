@@ -2,6 +2,7 @@ package com.vad.ltale.entity;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Date;
 import java.util.List;
 
 public class PostRequest {
@@ -13,11 +14,11 @@ public class PostRequest {
 
     private Long userId;
 
-    private Long dateCreated;
+    private Date dateCreated;
 
-    private Long dateChanged;
+    private Date dateChanged;
 
-    public List<MultipartFile> getAudio() {
+    public List<MultipartFile> getListAudio() {
         return audio;
     }
 
@@ -25,7 +26,7 @@ public class PostRequest {
         this.audio = audio;
     }
 
-    public List<Long> getDuration() {
+    public List<Long> getListDuration() {
         return duration;
     }
 
@@ -49,19 +50,19 @@ public class PostRequest {
         this.userId = userId;
     }
 
-    public Long getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(Long dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
-    public Long getDateChanged() {
+    public Date getDateChanged() {
         return dateChanged;
     }
 
-    public void setDateChanged(Long dateChanged) {
+    public void setDateChanged(Date dateChanged) {
         this.dateChanged = dateChanged;
     }
 
