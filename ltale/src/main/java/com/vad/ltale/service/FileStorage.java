@@ -19,7 +19,9 @@ public interface FileStorage {
 
     Resource load(String directory);
 
-    Resource loadById(Long id);
+    Resource loadImageById(Long id);
+
+    Resource loadAudioById(Long id);
 
     List<Audio> getAudiosById(List<Long> id);
 

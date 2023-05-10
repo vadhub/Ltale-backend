@@ -2,7 +2,6 @@ package com.vad.ltale.controller;
 
 import com.vad.ltale.entity.*;
 import com.vad.ltale.repository.IconRepository;
-import com.vad.ltale.repository.ImageRepository;
 import com.vad.ltale.repository.PostRepository;
 import com.vad.ltale.service.FileStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,10 +112,18 @@ public class FilesController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @GetMapping("/files/search")
+    @GetMapping("/files/audio/search")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@RequestParam Long imageId) {
-        Resource file = fileStorage.loadById(imageId);
+    public ResponseEntity<Resource> getAudio(@RequestParam Long id) {
+        Resource file = fileStorage.loadAudioById(id);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @GetMapping("/files/image/search")
+    @ResponseBody
+    public ResponseEntity<Resource> getImage(@RequestParam Long id) {
+        Resource file = fileStorage.loadImageById(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }

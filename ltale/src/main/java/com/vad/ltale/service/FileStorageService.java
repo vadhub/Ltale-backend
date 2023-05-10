@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 @Service
-public class FileStorageService implements FileStorage{
+public class FileStorageService implements FileStorage {
     private final Path root = Paths.get("uploads");
     private final ImageRepository imageRepository;
     private final AudioRepository audioRepository;
@@ -93,9 +93,25 @@ public class FileStorageService implements FileStorage{
     }
 
     @Override
-    public Resource loadById(Long id) {
+    public Resource loadImageById(Long id) {
         try {
             String uri = imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("non exist")).getImageUri();
+            Path file = Paths.get("uploads/"+uri);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Resource loadAudioById(Long id) {
+        try {
+            String uri = audioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("non exist")).getUri();
             Path file = Paths.get("uploads/"+uri);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
