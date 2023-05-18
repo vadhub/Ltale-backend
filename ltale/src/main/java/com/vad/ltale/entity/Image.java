@@ -24,13 +24,6 @@ public class Image {
     public Image() {
     }
 
-    public Image(Long idImage, String imageUri, Date dateCreated, Date dateChanged) {
-        this.idImage = idImage;
-        this.imageUri = imageUri;
-        this.dateCreated = dateCreated;
-        this.dateChanged = dateChanged;
-    }
-
     public Image(String imageUri, Date dateCreated, Date dateChanged) {
         this.imageUri = imageUri;
         this.dateCreated = dateCreated;

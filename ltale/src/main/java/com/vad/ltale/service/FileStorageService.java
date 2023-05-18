@@ -6,14 +6,13 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 import com.vad.ltale.entity.Audio;
-import com.vad.ltale.entity.AudioRequest;
 import com.vad.ltale.entity.FileRequest;
 import com.vad.ltale.repository.AudioRepository;
 import com.vad.ltale.repository.ImageRepository;
@@ -51,7 +50,7 @@ public class FileStorageService implements FileStorage {
             if (audioRequest.getFile().isEmpty()) throw new IllegalArgumentException("empty file");
             String audio = DigestUtils.md5DigestAsHex(Objects.requireNonNull(audioRequest.getFile().getOriginalFilename()).getBytes());
             Files.copy(audioRequest.getFile().getInputStream(), this.root.resolve(audio));
-            Audio temp = new Audio(audio, duration);
+            Audio temp = new Audio(audio, duration, new Timestamp(System.currentTimeMillis()));
             return audioRepository.save(temp);
         } catch (Exception e) {
             if (e instanceof FileAlreadyExistsException) {
@@ -95,7 +94,7 @@ public class FileStorageService implements FileStorage {
     @Override
     public Resource loadImageById(Long id) {
         try {
-            String uri = imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("non exist")).getImageUri();
+            String uri = imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("non exist " + id)).getImageUri();
             Path file = Paths.get("uploads/"+uri);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
@@ -111,7 +110,7 @@ public class FileStorageService implements FileStorage {
     @Override
     public Resource loadAudioById(Long id) {
         try {
-            String uri = audioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("non exist")).getUri();
+            String uri = audioRepository.findById(id).orElseThrow(() -> new NoSuchElementException("non exist "+id)).getUri();
             Path file = Paths.get("uploads/"+uri);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
