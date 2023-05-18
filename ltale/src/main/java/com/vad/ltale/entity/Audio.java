@@ -2,6 +2,8 @@ package com.vad.ltale.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+
 
 @Entity
 @Table(name = "audio")
@@ -18,6 +20,9 @@ public class Audio {
     @Column(name = "duration")
     private Long duration;
 
+    @Column(name = "date_create")
+    private Timestamp dateCreate;
+
 
 //    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
 //    @JoinColumn(name = "id_post")
@@ -27,9 +32,10 @@ public class Audio {
     }
 
 
-    public Audio(String uri, Long duration) {
+    public Audio(String uri, Long duration, Timestamp dateCreate) {
         this.uri = uri;
         this.duration = duration;
+        this.dateCreate = dateCreate;
     }
 
     public Long getId() {
@@ -56,7 +62,15 @@ public class Audio {
         this.duration = duration;
     }
 
-//    public Post getPost() {
+    public Timestamp getDateCreate() {
+        return dateCreate;
+    }
+
+    public void setDateCreate(Timestamp dateCreate) {
+        this.dateCreate = dateCreate;
+    }
+
+    //    public Post getPost() {
 //        return post;
 //    }
 //
@@ -64,12 +78,14 @@ public class Audio {
 //        this.post = post;
 //    }
 
+
     @Override
     public String toString() {
         return "Audio{" +
                 "id=" + id +
                 ", uri='" + uri + '\'' +
                 ", duration=" + duration +
+                ", dateCreate=" + dateCreate +
                 '}';
     }
 }
