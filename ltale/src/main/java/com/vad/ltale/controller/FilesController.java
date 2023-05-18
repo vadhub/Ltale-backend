@@ -100,7 +100,7 @@ public class FilesController {
         }
     }
 
-    @GetMapping("/files/search/icon")
+    @GetMapping("/files/icon/search")
     @ResponseBody
     public ResponseEntity<Object> getIcon(@RequestParam Long userId) {
         Image image = iconRepository.getIconByUserId(userId).orElse(new Icon()).getImage();
