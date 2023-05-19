@@ -5,6 +5,7 @@ import org.hibernate.annotations.Formula;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "post")
@@ -33,6 +34,9 @@ public class Post {
 
     @Formula("(SELECT count(i.user_id) FROM like_ i WHERE i.post_id = id_post)")
     private int countLike;
+
+    @Formula("(SELECT count(i.user_id) FROM like_ i WHERE i.post_id = id_post AND i.user_id = user_id)")
+    private int isLiked;
 
     public Post() {
     }
@@ -87,6 +91,10 @@ public class Post {
 
     public int getCountLike() {
         return countLike;
+    }
+
+    public boolean isLiked() {
+        return isLiked > 0;
     }
 
     public List<Audio> getAudioList() {
