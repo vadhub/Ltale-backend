@@ -1,6 +1,7 @@
 package com.vad.ltale.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Formula;
 
 import java.sql.Date;
 import java.util.List;
@@ -29,6 +30,9 @@ public class Post {
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "id_post")
     private List<Audio> audioList;
+
+    @Formula("(SELECT count(i.user_id) FROM like_ i WHERE i.post_id = id_post)")
+    private int countLike;
 
     public Post() {
     }
@@ -79,6 +83,10 @@ public class Post {
 
     public void setDateChanged(Date dateChanged) {
         this.dateChanged = dateChanged;
+    }
+
+    public int getCountLike() {
+        return countLike;
     }
 
     public List<Audio> getAudioList() {

@@ -8,12 +8,13 @@ import org.springframework.data.rest.core.config.Projection;
 import java.sql.Date;
 import java.util.List;
 
-@Projection(name = "inlinePost", types = {Post.class})
+@Projection(name = "inlinePost", types = Post.class)
 public interface InlinedPost {
     Long getId();
     Long getUser();
     List<Audio> getAudioList();
     Image getImage();
+    int getCountLike();
     Date getDateCreated();
     Date getDateChanged();
 }
