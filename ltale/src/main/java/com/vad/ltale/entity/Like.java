@@ -4,31 +4,30 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "like_")
-@IdClass(LikeID.class)
 public class Like {
 
-    @Id
-    private Long userId;
-
-    @Id
-    private Long postId;
+    @EmbeddedId
+    LikeID likeID;
 
     public Like() {
     }
 
-    public Long getIdPost() {
-        return postId;
+    public Like(LikeID likeID) {
+        this.likeID = likeID;
     }
 
-    public void setIdPost(Long idPost) {
-        this.postId = idPost;
+    public LikeID getLikeID() {
+        return likeID;
     }
 
-    public Long getIdUser() {
-        return userId;
+    public void setLikeID(LikeID likeID) {
+        this.likeID = likeID;
     }
 
-    public void setIdUser(Long idUser) {
-        this.userId = idUser;
+    @Override
+    public String toString() {
+        return "Like{" +
+                "likeID=" + likeID +
+                '}';
     }
 }

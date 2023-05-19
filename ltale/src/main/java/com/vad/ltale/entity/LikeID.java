@@ -1,8 +1,15 @@
 package com.vad.ltale.entity;
 
+import jakarta.persistence.Embeddable;
+
+import java.io.Serial;
 import java.io.Serializable;
 
+@Embeddable
 public class LikeID implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 0L;
 
     private Long userId;
 
