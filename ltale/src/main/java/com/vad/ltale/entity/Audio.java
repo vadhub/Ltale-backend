@@ -23,11 +23,6 @@ public class Audio {
     @Column(name = "date_create")
     private Timestamp dateCreate;
 
-
-//    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-//    @JoinColumn(name = "id_post")
-//    private Post post;
-
     public Audio() {
     }
 
