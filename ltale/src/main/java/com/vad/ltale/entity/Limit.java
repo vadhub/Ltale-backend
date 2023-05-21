@@ -6,7 +6,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "limited")
-public class Limited {
+public class Limit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,26 +16,26 @@ public class Limited {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "limit")
-    private Long limit;
+    @Column(name = "time_")
+    private Long time;
 
     @Column(name = "date_update")
     private Date dateUpdate;
 
-    public Limited(Long id, Long userId, Long limit, Date dateUpdate) {
+    public Limit(Long id, Long userId, Long limit, Date dateUpdate) {
         this.id = id;
         this.userId = userId;
-        this.limit = limit;
+        this.time = limit;
         this.dateUpdate = dateUpdate;
     }
 
-    public Limited(Long userId, Long limit, Date dateUpdate) {
+    public Limit(Long userId, Long limit, Date dateUpdate) {
         this.userId = userId;
-        this.limit = limit;
+        this.time = limit;
         this.dateUpdate = dateUpdate;
     }
 
-    public Limited() {
+    public Limit() {
 
     }
 
@@ -55,12 +55,12 @@ public class Limited {
         this.userId = userId;
     }
 
-    public Long getLimit() {
-        return limit;
+    public Long getTime() {
+        return time;
     }
 
-    public void setLimit(Long limit) {
-        this.limit = limit;
+    public void setTime(Long time) {
+        this.time = time;
     }
 
     public Date getDateUpdate() {
@@ -76,7 +76,7 @@ public class Limited {
         return "Limited{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", limit=" + limit +
+                ", limit=" + time +
                 ", dateUpdate=" + dateUpdate +
                 '}';
     }
