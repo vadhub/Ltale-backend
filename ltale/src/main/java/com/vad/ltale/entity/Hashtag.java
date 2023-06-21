@@ -9,18 +9,16 @@ public class Hashtag {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id_hashtag")
-    Long idHashtag;
+    private Long idHashtag;
 
     @Column(name = "hashtag_name")
-    String hashtagName;
-
-
-    public Hashtag(Long idHashtag, String hashtagName) {
-        this.idHashtag = idHashtag;
-        this.hashtagName = hashtagName;
-    }
+    private String hashtagName;
 
     public Hashtag() {
+    }
+
+    public Hashtag(String hashtagName) {
+        this.hashtagName = hashtagName;
     }
 
     public Long getIdHashtag() {
@@ -30,7 +28,6 @@ public class Hashtag {
     public void setIdHashtag(Long idHashtag) {
         this.idHashtag = idHashtag;
     }
-
 
     public String getHashtagName() {
         return hashtagName;

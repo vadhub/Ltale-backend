@@ -5,7 +5,6 @@ import org.hibernate.annotations.Formula;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "post")
@@ -33,7 +32,7 @@ public class Post {
     private List<Audio> audioList;
 
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "id_post")
+    @JoinColumn(name = "id_post_")
     private List<Hashtag> hashtags;
 
     @Formula("(SELECT count(i.user_id) FROM like_ i WHERE i.post_id = id_post)")
@@ -45,12 +44,13 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long userId, Image image, List<Audio> audioList, Date dateCreated, Date dateChanged) {
+    public Post(Long userId, Image image, List<Audio> audioList, Date dateCreated, Date dateChanged, List<Hashtag> hashtags) {
         this.userId = userId;
         this.image = image;
         this.audioList = audioList;
         this.dateCreated = dateCreated;
         this.dateChanged = dateChanged;
+        this.hashtags = hashtags;
     }
 
     public Long getId() {

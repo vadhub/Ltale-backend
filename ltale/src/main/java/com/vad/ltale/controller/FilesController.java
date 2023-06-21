@@ -1,6 +1,7 @@
 package com.vad.ltale.controller;
 
 import com.vad.ltale.entity.*;
+import com.vad.ltale.repository.HashtagRepository;
 import com.vad.ltale.repository.IconRepository;
 import com.vad.ltale.repository.PostRepository;
 import com.vad.ltale.service.FileStorage;
@@ -22,12 +23,14 @@ public class FilesController {
     private final FileStorage fileStorage;
     private final IconRepository iconRepository;
     private final PostRepository postRepository;
+    private final HashtagRepository hashtagRepository;
 
     @Autowired
-    public FilesController(FileStorage fileStorage, IconRepository iconRepository, PostRepository postRepository) {
+    public FilesController(FileStorage fileStorage, IconRepository iconRepository, PostRepository postRepository, HashtagRepository hashtagRepository) {
         this.fileStorage = fileStorage;
         this.iconRepository = iconRepository;
         this.postRepository = postRepository;
+        this.hashtagRepository = hashtagRepository;
     }
 
     @PostMapping("/upload/audio")
@@ -75,6 +78,7 @@ public class FilesController {
         try {
             Image image = null;
             List<Audio> audioList = new ArrayList<>();
+            List<Hashtag> hashtags = new ArrayList<>();
             if (postRequest.getImage() != null) {
                 image = fileStorage.saveImage(new FileRequest(postRequest.getImage(),postRequest.getDateCreated(), postRequest.getDateChanged()));
             }
@@ -84,12 +88,21 @@ public class FilesController {
                 audioList.add(audio);
             }
 
+            if (postRequest.getHashtags() != null) {
+                for (String s : postRequest.getHashtags()) {
+                    System.out.println(s);
+                    hashtags.add(hashtagRepository.save(new Hashtag(s)));
+
+                }
+            }
+
             Post post = new Post(
                     postRequest.getUserId(),
                     image,
                     audioList,
                     postRequest.getDateCreated(),
-                    postRequest.getDateChanged()
+                    postRequest.getDateChanged(),
+                    hashtags
             );
 
             postRepository.save(post);

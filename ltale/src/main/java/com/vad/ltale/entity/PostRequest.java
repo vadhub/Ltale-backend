@@ -10,6 +10,8 @@ public class PostRequest {
 
     private List<Long> duration;
 
+    private List<String> hashtags;
+
     private MultipartFile image;
 
     private Long userId;
@@ -32,6 +34,14 @@ public class PostRequest {
 
     public void setDuration(List<Long> duration) {
         this.duration = duration;
+    }
+
+    public List<String> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(List<String> hashtags) {
+        this.hashtags = hashtags;
     }
 
     public MultipartFile getImage() {
