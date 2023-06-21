@@ -32,6 +32,10 @@ public class Post {
     @JoinColumn(name = "id_post")
     private List<Audio> audioList;
 
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "id_post")
+    private List<Hashtag> hashtags;
+
     @Formula("(SELECT count(i.user_id) FROM like_ i WHERE i.post_id = id_post)")
     private int countLike;
 
@@ -105,5 +109,11 @@ public class Post {
         this.audioList = audioList;
     }
 
+    public List<Hashtag> getHashtags() {
+        return hashtags;
+    }
 
+    public void setHashtags(List<Hashtag> hashtags) {
+        this.hashtags = hashtags;
+    }
 }

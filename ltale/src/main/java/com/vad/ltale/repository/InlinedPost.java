@@ -1,6 +1,7 @@
 package com.vad.ltale.repository;
 
 import com.vad.ltale.entity.Audio;
+import com.vad.ltale.entity.Hashtag;
 import com.vad.ltale.entity.Image;
 import com.vad.ltale.entity.Post;
 import org.springframework.data.rest.core.config.Projection;
@@ -18,4 +19,5 @@ public interface InlinedPost {
     boolean isLiked();
     Date getDateCreated();
     Date getDateChanged();
+    List<Hashtag> getHashtags();
 }
