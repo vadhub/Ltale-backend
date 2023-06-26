@@ -33,8 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         configure -> configure
                                 .requestMatchers(HttpMethod.POST,"/registration").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/login").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/files/audio/search").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api-v1/files/image/**", "/login", "/api-v1/files/audio/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(configure -> configure.accessDeniedPage("/access-denied"))
