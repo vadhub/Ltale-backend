@@ -4,6 +4,7 @@ import jakarta.persistence.Embeddable;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class LikeID implements Serializable {
@@ -37,6 +38,19 @@ public class LikeID implements Serializable {
 
     public void setPostId(Long postId) {
         this.postId = postId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LikeID likeID = (LikeID) o;
+        return Objects.equals(userId, likeID.userId) && Objects.equals(postId, likeID.postId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, postId);
     }
 
     @Override
