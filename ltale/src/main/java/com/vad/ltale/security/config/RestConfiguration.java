@@ -1,4 +1,4 @@
-package com.vad.ltale.config;
+package com.vad.ltale.security.config;
 
 import com.vad.ltale.entity.*;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
