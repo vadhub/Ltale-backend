@@ -19,5 +19,6 @@ public interface InlinedPost {
     boolean isLiked();
     Date getDateCreated();
     Date getDateChanged();
+    String getNikName();
     List<Hashtag> getHashtags();
 }

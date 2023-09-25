@@ -38,8 +38,10 @@ public class Post {
     @Formula("(SELECT count(i.user_id) FROM like_ i WHERE i.post_id = id_post)")
     private int countLike;
 
-    @Formula("(SELECT count(i.user_id) FROM like_ i WHERE i.post_id = id_post AND i.user_id = user_id)")
     private int isLiked;
+
+    @Formula("(SELECT i.username FROM user i WHERE i.id_user = user_id)")
+    private String nikName;
 
     public Post() {
     }
@@ -97,6 +99,10 @@ public class Post {
         return countLike;
     }
 
+    public void setIsLiked(int isLiked) {
+        this.isLiked = isLiked;
+    }
+
     public boolean isLiked() {
         return isLiked > 0;
     }
@@ -115,5 +121,9 @@ public class Post {
 
     public void setHashtags(List<Hashtag> hashtags) {
         this.hashtags = hashtags;
+    }
+
+    public String getNikName() {
+        return nikName;
     }
 }
