@@ -3,9 +3,13 @@ package com.vad.ltale.controller;
 import com.vad.ltale.entity.*;
 import com.vad.ltale.repository.FollowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api-v1")
@@ -16,6 +20,11 @@ public class FollowsController {
     @Autowired
     public FollowsController(FollowRepository followRepository) {
         this.followRepository = followRepository;
+    }
+
+    @GetMapping("/subscribers")
+    public Long getSubscribers(@Param("userId") Long userId) {
+        return followRepository.findAll().stream().filter(follow -> Objects.equals(follow.getFollowEmbeddedID().getFollowedId(), userId)).count();
     }
 
     @PostMapping("/follow")
