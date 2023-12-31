@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -27,7 +26,12 @@ public class FollowsController {
         return followRepository.findAll().stream().filter(follow -> Objects.equals(follow.getFollowEmbeddedID().getFollowedId(), userId)).count();
     }
 
-    @PostMapping("/follow")
+    @GetMapping("/is_subscriber")
+    public boolean isSubscriber(@Param("follower") Long follower, @Param("followed") Long followed) {
+        return followRepository.findById(new FollowEmbeddedID(follower, followed)).isPresent();
+    }
+
+    @PostMapping("/subscribe")
     public ResponseEntity<Object> addLike(@RequestBody FollowEmbeddedID followEmbeddedID) {
         String messageResponse = "";
 
