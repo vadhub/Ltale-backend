@@ -16,7 +16,6 @@ public interface InlinedPost {
     List<Audio> getAudioList();
     Image getImage();
     int getCountLike();
-    boolean isLiked();
     Date getDateCreated();
     Date getDateChanged();
     String getNikName();
