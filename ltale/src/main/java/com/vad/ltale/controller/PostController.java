@@ -5,6 +5,7 @@ import com.vad.ltale.entity.Post;
 import com.vad.ltale.repository.LikeRepository;
 import com.vad.ltale.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,8 @@ public class PostController {
     }
 
     @GetMapping("/post")
-    public List<Post> getAllPost(@RequestParam Long currentUserId) {
-        return postService.getAllPost(currentUserId).stream().peek(post -> {
+    public List<Post> getAllPost(@RequestParam Long currentUserId, @RequestParam int page) {
+       return postService.getAllPost(currentUserId, page, 20).stream().peek(post -> {
             if (Objects.equals(post.getUser(), currentUserId)) {
                 if (likeRepository.findById(new LikeID(currentUserId, post.getId())).isPresent()) {
                     post.setIsLiked(1);

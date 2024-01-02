@@ -3,9 +3,10 @@ package com.vad.ltale.service;
 import com.vad.ltale.entity.Post;
 import com.vad.ltale.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -18,7 +19,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> getAllPost(Long currentUserId) {
-        return postRepository.findAll();
+    public Page<Post> getAllPost(Long currentUserId, int page, int size) {
+        return postRepository.findAll(PageRequest.of(page, size));
     }
 }

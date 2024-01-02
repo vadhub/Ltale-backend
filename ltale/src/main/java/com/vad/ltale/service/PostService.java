@@ -1,9 +1,8 @@
 package com.vad.ltale.service;
 
 import com.vad.ltale.entity.Post;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface PostService {
-    List<Post> getAllPost(Long currentUserId);
+    Page<Post> getAllPost(Long currentUserId, int page, int size);
 }
