@@ -17,6 +17,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "where h.hashtagName LIKE %:text% " +
             "or p.nikName LIKE %:text%")
     List<Post> findAllPostByText(@Param("text") String text);
-
-    List<Post> findAllByUserId(Long userId);
 }
