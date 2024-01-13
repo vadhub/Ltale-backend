@@ -6,6 +6,7 @@ import com.vad.ltale.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,8 +38,17 @@ public class MainController {
 
     @ResponseBody
     @GetMapping("/login")
-    public User loginPage(@RequestParam String username) {
-        return registrationService.getOne(username);
+    public ResponseEntity<User> loginPage(@RequestParam String username) {
+
+        User u = null;
+
+        try {
+            u = registrationService.getOne(username);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        return ResponseEntity.ok(u);
     }
 
     @GetMapping("/access-denied")
