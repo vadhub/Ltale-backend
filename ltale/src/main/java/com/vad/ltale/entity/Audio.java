@@ -65,14 +65,6 @@ public class Audio {
         this.dateCreate = dateCreate;
     }
 
-    //    public Post getPost() {
-//        return post;
-//    }
-//
-//    public void setPost(Post post) {
-//        this.post = post;
-//    }
-
 
     @Override
     public String toString() {

@@ -36,7 +36,6 @@ public class Limit {
     }
 
     public Limit() {
-
     }
 
     public Long getId() {

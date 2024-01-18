@@ -38,7 +38,6 @@ public class Image {
         this.idImage = idImage;
     }
 
-
     public String getImageUri() {
         return imageUri;
     }
@@ -62,7 +61,6 @@ public class Image {
     public void setDateChanged(Date dateChanged) {
         this.dateChanged = dateChanged;
     }
-
 
     @Override
     public String toString() {

@@ -26,7 +26,6 @@ public class FileRequest implements Serializable {
         this.file = file;
     }
 
-
     public MultipartFile getFile() {
         return file;
     }

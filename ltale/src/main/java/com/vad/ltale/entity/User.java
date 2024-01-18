@@ -27,9 +27,7 @@ public class User {
     @Column(name = "role")
     private Role role;
 
-
     public User() {
-
     }
 
     public User(String username, String email, String password, int enabled, Role role) {
