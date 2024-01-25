@@ -2,7 +2,6 @@ package com.vad.ltale.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,8 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -22,9 +19,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
+    private final EncriptionConfig encriptionConfig;
+
     @Autowired
-    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, EncriptionConfig encriptionConfig) {
         this.userDetailsService = userDetailsService;
+        this.encriptionConfig = encriptionConfig;
     }
 
     @Bean
@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         configure -> configure
                                 .requestMatchers(HttpMethod.POST,"/registration").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api-v1/files/image/**", "/login", "/api-v1/files/audio/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api-v1/files/image/**", "/api-v1/files/audio/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(configure -> configure.accessDeniedPage("/access-denied"))
@@ -43,15 +43,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
-
-    @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
         dao.setUserDetailsService(userDetailsService);
-        dao.setPasswordEncoder(passwordEncoder());
+        dao.setPasswordEncoder(encriptionConfig.passwordEncoder());
         return dao;
     }
 
