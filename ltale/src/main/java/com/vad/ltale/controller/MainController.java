@@ -44,6 +44,7 @@ public class MainController {
 
         try {
             u = registrationService.getOne(username);
+            u.setPassword("");
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
