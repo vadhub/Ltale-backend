@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,9 @@ public class FilesController {
         String messageResponse = "";
         try {
             Image image = fileStorage.saveImage(imageRequest);
-            iconRepository.save(new Icon(image, userId));
+            Icon icon = iconRepository.getIconByUserId(userId).orElseThrow();
+            icon.setImage(image);
+            iconRepository.save(icon);
             return ResponseEntity.status(HttpStatus.OK).body(image);
         } catch (Exception e) {
             messageResponse = "Could not upload the file: " + imageRequest.getFile().getOriginalFilename() + ". Error: " + e.getMessage();

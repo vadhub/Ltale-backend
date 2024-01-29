@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface IconRepository extends JpaRepository<Icon, Long> {
 
-    @Query("FROM Icon i WHERE i.userId = :userId ORDER BY i.image.dateCreated DESC LIMIT 1")
+    @Query("FROM Icon i WHERE i.userId = :userId")
     Optional<Icon> getIconByUserId(@Param("userId") Long userId);
 }
