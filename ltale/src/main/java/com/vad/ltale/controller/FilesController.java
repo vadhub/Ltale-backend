@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api-v1")
@@ -63,10 +64,19 @@ public class FilesController {
     public ResponseEntity<Object> uploadIcon(@ModelAttribute FileRequest imageRequest, @RequestParam Long userId) {
         String messageResponse = "";
         try {
+
+            Optional<Icon> iconOptional = iconRepository.getIconByUserId(userId);
             Image image = fileStorage.saveImage(imageRequest);
-            Icon icon = iconRepository.getIconByUserId(userId).orElseThrow();
-            icon.setImage(image);
-            iconRepository.save(icon);
+
+            if (iconOptional.isPresent()) {
+                Icon icon = iconOptional.get();
+                icon.setImage(image);
+                iconRepository.save(icon);
+            } else {
+                iconRepository.save(new Icon(image, userId));
+            }
+
+
             return ResponseEntity.status(HttpStatus.OK).body(image);
         } catch (Exception e) {
             messageResponse = "Could not upload the file: " + imageRequest.getFile().getOriginalFilename() + ". Error: " + e.getMessage();
