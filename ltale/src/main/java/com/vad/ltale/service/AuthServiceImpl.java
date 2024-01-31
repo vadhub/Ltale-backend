@@ -40,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
 
         User saved = userRepository.save(user);
 
-        limitRepository.save(new Limit(saved.getId(), 60_000L, new Date(System.currentTimeMillis())));
+        limitRepository.save(new Limit(saved.getId(), 180_000L, new Date(System.currentTimeMillis())));
 
         return saved;
     }
