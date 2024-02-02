@@ -29,7 +29,7 @@ public class LimitServiceImpl implements LimitService {
         LocalDate secondDate = limit.getDateUpdate().toLocalDate();
 
         if (firstDate.isAfter(secondDate)) {
-            limit = limitRepository.save(new Limit(limit.getId(), limit.getUserId(), 60_000L, now));
+            limit = limitRepository.save(new Limit(limit.getId(), limit.getUserId(), 180_000L, now));
         }
 
         return limit;
