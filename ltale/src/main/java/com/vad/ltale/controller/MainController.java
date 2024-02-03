@@ -1,5 +1,6 @@
 package com.vad.ltale.controller;
 
+import com.vad.ltale.email.EmailSenderService;
 import com.vad.ltale.entity.User;
 import com.vad.ltale.entity.UserRequest;
 import com.vad.ltale.service.AuthService;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class MainController {
 
     private final AuthService registrationService;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
-    public MainController(AuthService registrationService) {
+    public MainController(AuthService registrationService, EmailSenderService emailSenderService) {
         this.registrationService = registrationService;
+        this.emailSenderService = emailSenderService;
     }
 
     @GetMapping("/")
@@ -45,6 +48,8 @@ public class MainController {
         try {
             u = registrationService.getOne(username);
             u.setPassword("");
+
+            emailSenderService.sendEmail("gabderahmanov99@gmail.com", "Test email", "Test");
         } catch (UsernameNotFoundException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
