@@ -25,9 +25,16 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public List<Post> getAllPost(@RequestParam Long currentUserId, @RequestParam int page) {
+    public List<Post> getAllPost(@RequestParam Long currentUserId, @RequestParam int page, @RequestParam int sortType) {
 
-        return postService.getAllPost(currentUserId, page, 20, SortTypes.LIKE).stream().peek(post -> {
+        SortTypes sortTypes = SortTypes.LIKE;
+
+        switch (sortType) {
+            case 1 -> sortTypes = SortTypes.DATE_DESC; // new posts
+            case 2 -> sortTypes = SortTypes.DATE_ASC; // old posts
+
+        }
+        return postService.getAllPost(currentUserId, page, 20, sortTypes).stream().peek(post -> {
             if (likeRepository.findById(new LikeID(currentUserId, post.getId())).isPresent()) {
                 post.setIsLiked(1);
             }
@@ -36,7 +43,7 @@ public class PostController {
 
     @GetMapping("/posts/user")
     public List<Post> getAllPostCurrentUser(@RequestParam Long userId, @RequestParam Long currentUserId, @RequestParam int page) {
-        return postService.getAllPost(currentUserId, page, 20, SortTypes.DATE).stream().filter(post -> Objects.equals(post.getUser(), userId)).peek(post -> {
+        return postService.getAllPost(currentUserId, page, 20, SortTypes.DATE_DESC).stream().filter(post -> Objects.equals(post.getUser(), userId)).peek(post -> {
             if (likeRepository.findById(new LikeID(currentUserId, post.getId())).isPresent()) {
                 post.setIsLiked(1);
             }

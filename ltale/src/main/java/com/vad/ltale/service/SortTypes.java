@@ -2,5 +2,6 @@ package com.vad.ltale.service;
 
 public enum SortTypes {
     LIKE,
-    DATE
+    DATE_ASC,
+    DATE_DESC
 }

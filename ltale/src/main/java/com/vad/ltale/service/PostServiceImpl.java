@@ -25,7 +25,8 @@ public class PostServiceImpl implements PostService {
         Sort sort = null;
 
         switch (sortTypes) {
-            case DATE -> sort = Sort.by(Sort.Direction.DESC, "dateCreated");
+            case DATE_DESC -> sort = Sort.by(Sort.Direction.DESC, "dateCreated");
+            case DATE_ASC -> sort = Sort.by(Sort.Direction.ASC, "dateCreated");
             case LIKE -> sort = Sort.by(Sort.Direction.DESC, "countLike");
         }
 
