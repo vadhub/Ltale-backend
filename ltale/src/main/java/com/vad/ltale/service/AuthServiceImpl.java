@@ -50,4 +50,16 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.findByUsername(username).
                 orElseThrow(() -> new UsernameNotFoundException("username not found: " + username));
     }
+
+    @Override
+    public User getOneById(Long id, String newUsername) {
+
+        if (userRepository.findByUsername(newUsername).isPresent()) {
+            throw new IllegalArgumentException("User already exists");
+        }
+
+        User user = userRepository.findById(id).get();
+        user.setUsername(newUsername);
+        return userRepository.save(user);
+    }
 }
