@@ -49,4 +49,9 @@ public class PostController {
             }
         }).toList();
     }
+
+    @GetMapping("/post")
+    public Post getPost(@RequestParam Long postId) {
+        return postService.getPost(postId);
+    }
 }

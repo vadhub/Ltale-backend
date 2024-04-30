@@ -32,4 +32,9 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.findAll(PageRequest.of(page, size, sort));
     }
+
+    @Override
+    public Post getPost(Long postId) {
+        return postRepository.findById(postId).get();
+    }
 }
