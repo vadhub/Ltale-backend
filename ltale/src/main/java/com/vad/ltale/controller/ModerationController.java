@@ -1,12 +1,14 @@
 package com.vad.ltale.controller;
 
+import com.vad.ltale.entity.ComplaintReport;
 import com.vad.ltale.repository.ComplaintReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class ModerationController {
 
     private final ComplaintReportRepository complaintReportRepository;
@@ -17,8 +19,7 @@ public class ModerationController {
     }
 
     @GetMapping("/moderation-posts")
-    public String moderationPage(Model model) {
-        model.addAttribute("reports", complaintReportRepository.findAll());
-        return "index";
+    public List<ComplaintReport> moderationPage() {
+        return complaintReportRepository.findAll();
     }
 }

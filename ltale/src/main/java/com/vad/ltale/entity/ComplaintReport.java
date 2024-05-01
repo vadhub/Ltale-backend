@@ -12,8 +12,9 @@ public class ComplaintReport {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "id_post")
-    private Long idPost;
+    @OneToOne
+    @JoinColumn(name = "id_post")
+    private Post post;
 
     @Column(name = "id_complaint")
     private int idComplaint;
@@ -24,18 +25,18 @@ public class ComplaintReport {
     public ComplaintReport() {
     }
 
-    public ComplaintReport(Long idPost, int idComplaint, Date dateCreated) {
-        this.idPost = idPost;
+    public ComplaintReport(Post post, int idComplaint, Date dateCreated) {
+        this.post = post;
         this.idComplaint = idComplaint;
         this.dateCreated = dateCreated;
     }
 
-    public Long getIdPost() {
-        return idPost;
+    public Post getPost() {
+        return post;
     }
 
-    public void setIdPost(Long idPost) {
-        this.idPost = idPost;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public Long getId() {
