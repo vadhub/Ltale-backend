@@ -34,7 +34,8 @@ public class SecurityConfig {
                         configure -> configure
                                 .requestMatchers(HttpMethod.GET, "/moderation-posts").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/moderation-posts").hasAuthority("ADMIN")
-                                .requestMatchers("/api-v1/complaintReports/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET,"/api-v1/complaintReports/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE,"/api-v1/complaintReports/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.POST,"/registration").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api-v1/files/image/**", "/api-v1/files/audio/**").permitAll()
                                 .anyRequest().authenticated()
