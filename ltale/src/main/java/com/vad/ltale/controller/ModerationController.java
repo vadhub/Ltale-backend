@@ -20,6 +20,6 @@ public class ModerationController {
 
     @GetMapping("/moderation-posts")
     public List<ComplaintReport> moderationPage() {
-        return complaintReportRepository.findAll();
+        return complaintReportRepository.findAllByOrderByDateCreatedDesc();
     }
 }
